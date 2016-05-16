@@ -1,0 +1,9 @@
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\1031 Calculator.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\Mono.Android.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\mscorlib.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.Core.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.Xml.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.Xml.Linq.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.Runtime.Serialization.dll
+F:\Projects\Billable\1031 Calculator\1031 Calculator\obj\Debug\assemblies\System.ServiceModel.Internals.dll
