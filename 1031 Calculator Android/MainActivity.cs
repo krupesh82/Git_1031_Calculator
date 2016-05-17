@@ -51,8 +51,10 @@ namespace _1031_Calculator
     class Calculator1031 : Fragment
     {
         private View view;
-        double percentageTax = 0;
+        double percentageTax = 0.00;
+        double percentageComplete = 0.00;
         string maritalStatus;
+        double savings = 0.00;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -84,7 +86,34 @@ namespace _1031_Calculator
             SpinnerStates_Fill();
             SpinnerMaritalStatus_Fill();
 
+            var btnCalculate = view.FindViewById<Button>(Resource.Id.calculate);
+            btnCalculate.Click += BtnCalculate_Click;
+
             return view;
+        }
+
+        private void BtnCalculate_Click(object sender, EventArgs e)
+        {
+            if(percentageComplete == 100.00)
+            {
+                double pp = Convert.ToDouble(view.FindViewById<EditText>(Resource.Id.ipPurchasePrice).Text);
+                double ci = Convert.ToDouble(view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements).Text);
+                double sp = Convert.ToDouble(view.FindViewById<EditText>(Resource.Id.ipSalePrice).Text);
+
+                if (sp < pp + ci)
+                {
+                    savings = 0.00;
+                }
+                else
+                {
+                    double gain = sp - (pp + ci);
+                    savings = gain * percentageTax/100;
+                }
+
+                var percComplete = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
+                string percText = Html.FromHtml("Your 1031 savings: <br>$" + savings.ToString()).ToString();
+                percComplete.SetText(percText.ToCharArray(), 0, percText.Length);
+            }
         }
 
         private void SpinnerStates_Fill()
@@ -103,6 +132,7 @@ namespace _1031_Calculator
         {
             string taxRate = Resources.GetStringArray(Resource.Array.state_tax)[e.Position];
             SetPercentageComplete();
+            SetPercentageTax();
         }
 
         private void SpinnerMaritalStatus_Fill()
@@ -150,6 +180,7 @@ namespace _1031_Calculator
         {
             string taxRate = Resources.GetStringArray(Resource.Array.state_tax)[e.Position];
             SetPercentageComplete();
+            SetPercentageTax();
         }
 
         private void IpSalePrice_TextChanged(object sender, TextChangedEventArgs e)
@@ -214,33 +245,33 @@ namespace _1031_Calculator
 
         private void SetPercentageComplete()
         {
-            int percentageComplete = 0;
+            int completionStep = 0;
 
             var textView = view.FindViewById<EditText>(Resource.Id.ipPurchasePrice);
-            if (!string.IsNullOrEmpty(textView.Text)) percentageComplete++;
+            if (!string.IsNullOrEmpty(textView.Text)) completionStep++;
 
             textView = view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements);
-            if (!string.IsNullOrEmpty(textView.Text)) percentageComplete++;
+            if (!string.IsNullOrEmpty(textView.Text)) completionStep++;
 
             textView = view.FindViewById<EditText>(Resource.Id.ipSalePrice);
-            if (!string.IsNullOrEmpty(textView.Text)) percentageComplete++;
+            if (!string.IsNullOrEmpty(textView.Text)) completionStep++;
 
             Spinner spinner = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
-            if (spinner.SelectedItem != null) percentageComplete++;
+            if (spinner.SelectedItem != null) completionStep++;
 
             spinner = view.FindViewById<Spinner>(Resource.Id.spinnerMaritalStatus);
-            if (spinner.SelectedItem != null) percentageComplete++;
+            if (spinner.SelectedItem != null) completionStep++;
 
             spinner = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
-            if (spinner.SelectedItem != null) percentageComplete++;
+            if (spinner.SelectedItem != null) completionStep++;
 
-            double percentage = percentageComplete * 100 / 6;
+            percentageComplete = completionStep * 100 / 6;
             var percComplete = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
-            string percText = Html.FromHtml(percentage.ToString() + "%<br>Complete").ToString();
+            string percText = Html.FromHtml(percentageComplete.ToString() + "%<br>Complete").ToString();
             percComplete.SetText(percText.ToCharArray(), 0, percText.Length);
 
             var button = view.FindViewById<Button>(Resource.Id.calculate);
-            if (percentage == 100.00)
+            if (percentageComplete == 100.00)
                 button.Enabled = true;
             else
                 button.Enabled = false;
@@ -248,22 +279,34 @@ namespace _1031_Calculator
 
         private void SetPercentageTax()
         {
+            string stateTax ="0.0";
+            string federalTax="0.0";
             Spinner spinner = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
             if (spinner.SelectedItem != null)
             {                
-                string stateTax = Resources.GetStringArray(Resource.Array.state_tax)[spinner.SelectedItemPosition];
+                stateTax = Resources.GetStringArray(Resource.Array.state_tax)[spinner.SelectedItemPosition];
             }
 
             spinner = view.FindViewById<Spinner>(Resource.Id.spinnerMaritalStatus);
             if (spinner.SelectedItem != null)
             {
+                spinner = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
+
+                if (spinner.SelectedItem != null)
+                {
+                    if (maritalStatus.ToUpper() == "SINGLE")
+                    {
+                        federalTax = Resources.GetStringArray(Resource.Array.single_income_tax_rate)[spinner.SelectedItemPosition];
+                    }
+                    else if(maritalStatus.ToUpper() == "MARRIED")
+                    {
+                        federalTax = Resources.GetStringArray(Resource.Array.married_income_tax_rate)[spinner.SelectedItemPosition];
+                    }
+                }                
             }
 
-            spinner = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
-            if (spinner.SelectedItem != null)
-            {
-            }
-
+            percentageTax = Convert.ToDouble(stateTax) + Convert.ToDouble(federalTax);
+            
             var percTax = view.FindViewById<TextView>(Resource.Id.percentagetax);
             string percText = Html.FromHtml(percentageTax.ToString() + "%<br>Tax Rate").ToString();
             percTax.SetText(percText.ToCharArray(), 0, percText.Length);
