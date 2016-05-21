@@ -7,6 +7,12 @@ using Android.Widget;
 using Android.OS;
 using Android.Text;
 using System.Linq;
+using SQLite;
+using SQLite.Net.Attributes;
+using SQLite.Net.Interop;
+using System.IO;
+using System.Collections.Generic;
+using static Android.Widget.ExpandableListView;
 
 namespace _1031_Calculator
 {
@@ -55,7 +61,7 @@ namespace _1031_Calculator
         double percentageComplete = 0.00;
         string maritalStatus;
         double savings = 0.00;
-
+        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -89,12 +95,130 @@ namespace _1031_Calculator
             var btnCalculate = view.FindViewById<Button>(Resource.Id.calculate);
             btnCalculate.Click += BtnCalculate_Click;
 
+            var btnSave = view.FindViewById<Button>(Resource.Id.saveresults);
+            btnSave.Click += BtnSave_Click;
+
             return view;
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            Property property = GetPropertyObject();
+            if (property == null)
+            {
+                Toast.MakeText(view.Context, "Please fill all the fields.", ToastLength.Short).Show();
+                return;
+            }
+
+            AlertDialog alertDialog = (new AlertDialog.Builder(view.Context)).Create();
+            var viewAD = LayoutInflater.From(view.Context).Inflate(Resource.Layout.SaveDialog, null);
+            alertDialog.SetView(viewAD);
+            alertDialog.SetTitle("Enter Name");
+            alertDialog.SetCanceledOnTouchOutside(false);
+            var btnCancel = viewAD.FindViewById<Button>(Resource.Id.btnCancel);
+            btnCancel.Click += delegate {
+                alertDialog.Dismiss();
+                Toast.MakeText(viewAD.Context, "Saving Canceled!", ToastLength.Short).Show();
+            };
+            var name = "";
+            var btnSave = viewAD.FindViewById<Button>(Resource.Id.btnSave);
+            btnSave.Click += delegate {
+                var nameField = viewAD.FindViewById<EditText>(Resource.Id.saveName);
+                name = nameField.Text;
+                property.Name = name;
+
+                CalculateTaxRate();
+                property.TaxRate = percentageTax;
+
+                CalculateSavings();
+                property.Savings = savings;
+
+                if (SaveToDB(property))
+                {
+                    alertDialog.Dismiss();
+                    Toast.MakeText(viewAD.Context, name + " saved successfully.", ToastLength.Short).Show();
+                }
+                else
+                {
+                    alertDialog.Dismiss();
+                    Toast.MakeText(viewAD.Context, "Sorry! Could not save the property. Please try again.", ToastLength.Short).Show();
+                }
+            }; 
+
+            alertDialog.Show();
+        }
+
+        private Property GetPropertyObject()
+        {
+            Property property = new Property();
+            if (percentageComplete < 100.00) return null;
+
+            var pp = view.FindViewById<EditText>(Resource.Id.ipPurchasePrice);
+            property.PurchasePrice = Convert.ToDouble(pp.Text);
+
+            var cp = view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements);
+            property.CapitalImprovements = Convert.ToDouble(cp.Text);
+
+            var sp = view.FindViewById<EditText>(Resource.Id.ipSalePrice);
+            property.SalePrice = Convert.ToDouble(sp.Text);
+
+            var state = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
+            property.State = state.SelectedItem.ToString();
+
+            var ms = view.FindViewById<Spinner>(Resource.Id.spinnerMaritalStatus);
+            property.MaritalStatus = ms.SelectedItem.ToString();
+
+            var income = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
+            property.Income = income.SelectedItem.ToString();
+
+            return property;
+        }
+
+        private bool SaveToDB(Property property)
+        {
+            string dbFile = "Properties.db";
+            try
+            {
+                if (!File.Exists(dbPath + dbFile))
+                {
+                    Stream instream = view.Context.Assets.Open("Properties.db");
+                    if(!Directory.Exists(dbPath))
+                        Directory.CreateDirectory(dbPath);
+
+                    Stream outstream = new FileStream(dbPath + dbFile, FileMode.OpenOrCreate);
+                    //transfer bytes from the inputfile to the outputfile
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = instream.Read(buffer, 0, buffer.Length)) > 0) {
+                        outstream.Write(buffer, 0, len);
+                    }
+
+                    //Close the streams
+                    outstream.Flush();
+                    outstream.Close();
+                    instream.Close();
+                }
+
+                    var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
+                    conn.Insert(property);
+                    return true;                
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
 
         private void BtnCalculate_Click(object sender, EventArgs e)
         {
-            if(percentageComplete == 100.00)
+            CalculateSavings();
+            var percComplete = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
+            string percText = Html.FromHtml("Your 1031 savings: <br>$" + savings.ToString()).ToString();
+            percComplete.SetText(percText.ToCharArray(), 0, percText.Length);
+        }
+
+        private void CalculateSavings()
+        {
+            if (percentageComplete == 100.00)
             {
                 double pp = Convert.ToDouble(view.FindViewById<EditText>(Resource.Id.ipPurchasePrice).Text);
                 double ci = Convert.ToDouble(view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements).Text);
@@ -107,12 +231,12 @@ namespace _1031_Calculator
                 else
                 {
                     double gain = sp - (pp + ci);
-                    savings = gain * percentageTax/100;
+                    savings = gain * percentageTax / 100;
                 }
-
-                var percComplete = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
-                string percText = Html.FromHtml("Your 1031 savings: <br>$" + savings.ToString()).ToString();
-                percComplete.SetText(percText.ToCharArray(), 0, percText.Length);
+            }
+            else
+            {
+                savings = 0.0;
             }
         }
 
@@ -277,13 +401,13 @@ namespace _1031_Calculator
                 button.Enabled = false;
         }
 
-        private void SetPercentageTax()
+        private void CalculateTaxRate()
         {
-            string stateTax ="0.0";
-            string federalTax="0.0";
+            string stateTax = "0.0";
+            string federalTax = "0.0";
             Spinner spinner = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
             if (spinner.SelectedItem != null)
-            {                
+            {
                 stateTax = Resources.GetStringArray(Resource.Array.state_tax)[spinner.SelectedItemPosition];
             }
 
@@ -298,14 +422,19 @@ namespace _1031_Calculator
                     {
                         federalTax = Resources.GetStringArray(Resource.Array.single_income_tax_rate)[spinner.SelectedItemPosition];
                     }
-                    else if(maritalStatus.ToUpper() == "MARRIED")
+                    else if (maritalStatus.ToUpper() == "MARRIED")
                     {
                         federalTax = Resources.GetStringArray(Resource.Array.married_income_tax_rate)[spinner.SelectedItemPosition];
                     }
-                }                
+                }
             }
 
             percentageTax = Convert.ToDouble(stateTax) + Convert.ToDouble(federalTax);
+        }
+
+        private void SetPercentageTax()
+        {
+            CalculateTaxRate();
             
             var percTax = view.FindViewById<TextView>(Resource.Id.percentagetax);
             string percText = Html.FromHtml(percentageTax.ToString() + "%<br>Tax Rate").ToString();
@@ -314,13 +443,76 @@ namespace _1031_Calculator
     }
     class SavedProperties : Fragment
     {
+        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+        int lastExpandedGroup = -1;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = inflater.Inflate(Resource.Layout.SavedProperties, container, false);
             this.Activity.SetTitle(Resource.String.SavedProperties);
+
+            int count = GetCount();
+
+            List<Property> properties = GetSavedProperties();
+
+            if (count == 0 || properties == null || properties.Count == 0)
+            {
+                var textView = view.FindViewById<TextView>(Resource.Id.NoPropSaved);
+                textView.Visibility = ViewStates.Visible;
+
+                var elv = view.FindViewById<ExpandableListView>(Resource.Id.elvSavedProperties);
+                elv.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                var textView = view.FindViewById<TextView>(Resource.Id.NoPropSaved);
+                textView.Visibility = ViewStates.Gone;
+
+                var elv = view.FindViewById<ExpandableListView>(Resource.Id.elvSavedProperties);
+                elv.Visibility = ViewStates.Visible;
+                var expandListener = new SavedPropertiesExpandableDataAdapter(this.Activity, properties);
+                elv.SetAdapter(expandListener);
+                elv.GroupExpand += Elv_GroupExpand;
+            }            
+
             return view;
+        }
+
+        private void Elv_GroupExpand(object sender, GroupExpandEventArgs e)
+        {
+            var elv = (ExpandableListView)sender;
+            if (lastExpandedGroup != -1
+                    && e.GroupPosition != lastExpandedGroup)
+            {
+                elv.CollapseGroup(lastExpandedGroup);
+            }
+            lastExpandedGroup = e.GroupPosition;
+        }
+        
+        private int GetCount()
+        {
+            string dbFile = "Properties.db";
+            try
+            {
+                var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
+                var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM Property");
+                return count;
+            }
+            catch (Exception ex) { return -1; }
+        }
+
+        private List<Property> GetSavedProperties()
+        {
+            string dbFile = "Properties.db";
+            try
+            {
+                var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
+                List<Property> properties = conn.Table<Property>().ToList<Property>();
+                return properties;
+
+            }
+            catch (Exception ex) { return null; }
         }
     }
     class About1031 : Fragment
@@ -332,7 +524,7 @@ namespace _1031_Calculator
             var view = inflater.Inflate(Resource.Layout.About1031, container, false);
             this.Activity.SetTitle(Resource.String.About1031);
             var listView = view.FindViewById<ExpandableListView>(Resource.Id.expandableListview);
-            listView.SetAdapter(new ExpandableDataAdapter(this.Activity, AboutData.GetFaqs()));
+            //listView.SetAdapter(new AboutExpandableDataAdapter(this.Activity, AboutData.GetFaqs()));
             return view;
         }
     }
@@ -345,6 +537,30 @@ namespace _1031_Calculator
             var view = inflater.Inflate(Resource.Layout.Disclaimer, container, false);
             return view;
         }
+    }
+
+    public class Property
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+
+        public double PurchasePrice { get; set; }
+
+        public double CapitalImprovements { get; set; }
+
+        public double SalePrice { get; set; }
+
+        public string State { get; set; }
+
+        public string MaritalStatus { get; set; }
+
+        public string Income { get; set; }
+
+        public double TaxRate { get; set; }
+
+        public double Savings { get; set; }        
     }
 }
 

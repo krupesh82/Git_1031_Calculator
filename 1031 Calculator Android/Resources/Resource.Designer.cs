@@ -26,6 +26,8 @@ namespace _1031_Calculator
 		
 		public static void UpdateIdValues()
 		{
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::_1031_Calculator.Resource.String.ApplicationName;
+			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::_1031_Calculator.Resource.String.Hello;
 		}
 		
 		public partial class Array
@@ -79,13 +81,16 @@ namespace _1031_Calculator
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int delete = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int myButton = 2130837505;
+			public const int Icon = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int oval = 2130837506;
+			public const int myButton = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int oval = 2130837507;
 			
 			static Drawable()
 			{
@@ -100,20 +105,38 @@ namespace _1031_Calculator
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06001a
-			public const int DataHeader = 2131099674;
+			// aapt resource value: 0x7f060003
+			public const int AboutDataHeader = 2131099651;
 			
-			// aapt resource value: 0x7f060018
-			public const int DataRow = 2131099672;
-			
-			// aapt resource value: 0x7f060019
-			public const int DataValue = 2131099673;
+			// aapt resource value: 0x7f060002
+			public const int AboutDataValue = 2131099650;
 			
 			// aapt resource value: 0x7f060001
-			public const int GridLayoutCalculator = 2131099649;
+			public const int DataRow = 2131099649;
 			
-			// aapt resource value: 0x7f060017
-			public const int calculate = 2131099671;
+			// aapt resource value: 0x7f060004
+			public const int GridLayoutCalculator = 2131099652;
+			
+			// aapt resource value: 0x7f06001f
+			public const int NoPropSaved = 2131099679;
+			
+			// aapt resource value: 0x7f06002a
+			public const int PropertyDataHeader = 2131099690;
+			
+			// aapt resource value: 0x7f06001e
+			public const int btnCancel = 2131099678;
+			
+			// aapt resource value: 0x7f06001d
+			public const int btnSave = 2131099677;
+			
+			// aapt resource value: 0x7f06001a
+			public const int calculate = 2131099674;
+			
+			// aapt resource value: 0x7f060022
+			public const int deleteProperty = 2131099682;
+			
+			// aapt resource value: 0x7f060020
+			public const int elvSavedProperties = 2131099680;
 			
 			// aapt resource value: 0x7f060000
 			public const int expandableListview = 2131099648;
@@ -121,68 +144,95 @@ namespace _1031_Calculator
 			// aapt resource value: 0x7f06001b
 			public const int fragmentContainer = 2131099675;
 			
-			// aapt resource value: 0x7f06000a
-			public const int ipCapitalImprovements = 2131099658;
-			
-			// aapt resource value: 0x7f060007
-			public const int ipPurchasePrice = 2131099655;
-			
 			// aapt resource value: 0x7f06000d
-			public const int ipSalePrice = 2131099661;
+			public const int ipCapitalImprovements = 2131099661;
 			
-			// aapt resource value: 0x7f060008
-			public const int lblCapitalImprovements = 2131099656;
-			
-			// aapt resource value: 0x7f060012
-			public const int lblIncome = 2131099666;
+			// aapt resource value: 0x7f06000a
+			public const int ipPurchasePrice = 2131099658;
 			
 			// aapt resource value: 0x7f060010
-			public const int lblMaritalStatus = 2131099664;
-			
-			// aapt resource value: 0x7f060005
-			public const int lblPurchasePrice = 2131099653;
+			public const int ipSalePrice = 2131099664;
 			
 			// aapt resource value: 0x7f06000b
-			public const int lblSalePrice = 2131099659;
-			
-			// aapt resource value: 0x7f06000e
-			public const int lblSelectState = 2131099662;
-			
-			// aapt resource value: 0x7f060002
-			public const int percentagecomplete = 2131099650;
-			
-			// aapt resource value: 0x7f060003
-			public const int percentagetax = 2131099651;
-			
-			// aapt resource value: 0x7f060004
-			public const int saveresults = 2131099652;
-			
-			// aapt resource value: 0x7f060009
-			public const int seekCapitalImprovements = 2131099657;
-			
-			// aapt resource value: 0x7f060006
-			public const int seekPurchasePrice = 2131099654;
-			
-			// aapt resource value: 0x7f06000c
-			public const int seekSalePrice = 2131099660;
-			
-			// aapt resource value: 0x7f060013
-			public const int spinnerIncome = 2131099667;
-			
-			// aapt resource value: 0x7f060011
-			public const int spinnerMaritalStatus = 2131099665;
-			
-			// aapt resource value: 0x7f06000f
-			public const int spinnerStates = 2131099663;
+			public const int lblCapitalImprovements = 2131099659;
 			
 			// aapt resource value: 0x7f060015
-			public const int textHOLM1 = 2131099669;
+			public const int lblIncome = 2131099669;
+			
+			// aapt resource value: 0x7f060013
+			public const int lblMaritalStatus = 2131099667;
+			
+			// aapt resource value: 0x7f060008
+			public const int lblPurchasePrice = 2131099656;
+			
+			// aapt resource value: 0x7f06000e
+			public const int lblSalePrice = 2131099662;
+			
+			// aapt resource value: 0x7f060011
+			public const int lblSelectState = 2131099665;
+			
+			// aapt resource value: 0x7f060026
+			public const int liCapitalImprovements = 2131099686;
+			
+			// aapt resource value: 0x7f060024
+			public const int liIncomeGroup = 2131099684;
+			
+			// aapt resource value: 0x7f060023
+			public const int liMaritalStatus = 2131099683;
+			
+			// aapt resource value: 0x7f060021
+			public const int liPropertyName = 2131099681;
+			
+			// aapt resource value: 0x7f060025
+			public const int liPurchasePrice = 2131099685;
+			
+			// aapt resource value: 0x7f060027
+			public const int liSalePrice = 2131099687;
+			
+			// aapt resource value: 0x7f060029
+			public const int liSavings = 2131099689;
+			
+			// aapt resource value: 0x7f060028
+			public const int liTaxRate = 2131099688;
+			
+			// aapt resource value: 0x7f060005
+			public const int percentagecomplete = 2131099653;
+			
+			// aapt resource value: 0x7f060006
+			public const int percentagetax = 2131099654;
+			
+			// aapt resource value: 0x7f06001c
+			public const int saveName = 2131099676;
+			
+			// aapt resource value: 0x7f060007
+			public const int saveresults = 2131099655;
+			
+			// aapt resource value: 0x7f06000c
+			public const int seekCapitalImprovements = 2131099660;
+			
+			// aapt resource value: 0x7f060009
+			public const int seekPurchasePrice = 2131099657;
+			
+			// aapt resource value: 0x7f06000f
+			public const int seekSalePrice = 2131099663;
 			
 			// aapt resource value: 0x7f060016
-			public const int textHOLM2 = 2131099670;
+			public const int spinnerIncome = 2131099670;
 			
 			// aapt resource value: 0x7f060014
-			public const int textSponsoredBy = 2131099668;
+			public const int spinnerMaritalStatus = 2131099668;
+			
+			// aapt resource value: 0x7f060012
+			public const int spinnerStates = 2131099666;
+			
+			// aapt resource value: 0x7f060018
+			public const int textHOLM1 = 2131099672;
+			
+			// aapt resource value: 0x7f060019
+			public const int textHOLM2 = 2131099673;
+			
+			// aapt resource value: 0x7f060017
+			public const int textSponsoredBy = 2131099671;
 			
 			static Id()
 			{
@@ -201,22 +251,31 @@ namespace _1031_Calculator
 			public const int About1031 = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Calculator1031 = 2130903041;
+			public const int AboutDataListItem = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int DataListItem = 2130903042;
+			public const int AboutListGroup = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Disclaimer = 2130903043;
+			public const int Calculator1031 = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int ListGroup = 2130903044;
+			public const int Disclaimer = 2130903044;
 			
 			// aapt resource value: 0x7f030005
 			public const int Main = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int SavedProperties = 2130903046;
+			public const int SaveDialog = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int SavedProperties = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int SavedPropertiesDataListItem = 2130903048;
+			
+			// aapt resource value: 0x7f030009
+			public const int SavedPropertiesListGroup = 2130903049;
 			
 			static Layout()
 			{
@@ -231,20 +290,23 @@ namespace _1031_Calculator
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040003
-			public const int About1031 = 2130968579;
-			
-			// aapt resource value: 0x7f040000
-			public const int ApplicationName = 2130968576;
+			// aapt resource value: 0x7f040004
+			public const int About1031 = 2130968580;
 			
 			// aapt resource value: 0x7f040001
-			public const int Calculator1031 = 2130968577;
-			
-			// aapt resource value: 0x7f040004
-			public const int Disclaimer = 2130968580;
+			public const int ApplicationName = 2130968577;
 			
 			// aapt resource value: 0x7f040002
-			public const int SavedProperties = 2130968578;
+			public const int Calculator1031 = 2130968578;
+			
+			// aapt resource value: 0x7f040005
+			public const int Disclaimer = 2130968581;
+			
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040003
+			public const int SavedProperties = 2130968579;
 			
 			static String()
 			{

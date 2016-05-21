@@ -3,5 +3,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="No Properties have been saved."
+        android:textColor="#fff"
+        android:id="@+id/NoPropSaved" />
+    <ExpandableListView
+        android:id="@+id/elvSavedProperties"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
 </LinearLayout>
