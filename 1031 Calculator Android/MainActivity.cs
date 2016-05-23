@@ -13,6 +13,7 @@ using SQLite.Net.Interop;
 using System.IO;
 using System.Collections.Generic;
 using static Android.Widget.ExpandableListView;
+using Android.Text.Style;
 
 namespace _1031_Calculator
 {
@@ -62,6 +63,10 @@ namespace _1031_Calculator
         string maritalStatus;
         double savings = 0.00;
         string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+        double prevPP = 0;
+        double prevCI = 0;
+        double prevSP = 0;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -70,6 +75,10 @@ namespace _1031_Calculator
 
             SetPercentageComplete();
             SetPercentageTax();
+
+            var pc = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
+            Android.Graphics.Rect outRect = new Android.Graphics.Rect();
+            pc.GetDrawingRect(outRect);
 
             var seekPurchasePrice = view.FindViewById<SeekBar>(Resource.Id.seekPurchasePrice);
             seekPurchasePrice.ProgressChanged += SeekPurchasePrice_ProgressChanged;
@@ -103,6 +112,7 @@ namespace _1031_Calculator
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            CreateDB();
             Property property = GetPropertyObject();
             if (property == null)
             {
@@ -122,26 +132,35 @@ namespace _1031_Calculator
             };
             var name = "";
             var btnSave = viewAD.FindViewById<Button>(Resource.Id.btnSave);
-            btnSave.Click += delegate {
+            btnSave.Click += delegate
+            {
                 var nameField = viewAD.FindViewById<EditText>(Resource.Id.saveName);
                 name = nameField.Text;
-                property.Name = name;
 
-                CalculateTaxRate();
-                property.TaxRate = percentageTax;
-
-                CalculateSavings();
-                property.Savings = savings;
-
-                if (SaveToDB(property))
+                if (IsDuplicateName(name))
                 {
-                    alertDialog.Dismiss();
-                    Toast.MakeText(viewAD.Context, name + " saved successfully.", ToastLength.Short).Show();
+                    Toast.MakeText(viewAD.Context, "Property with name '" + name + "' already exist. Please use different name.", ToastLength.Short).Show();
                 }
                 else
                 {
-                    alertDialog.Dismiss();
-                    Toast.MakeText(viewAD.Context, "Sorry! Could not save the property. Please try again.", ToastLength.Short).Show();
+                    property.Name = name;
+
+                    CalculateTaxRate();
+                    property.TaxRate = percentageTax;
+
+                    CalculateSavings();
+                    property.Savings = savings;
+
+                    if (SaveToDB(property))
+                    {
+                        alertDialog.Dismiss();
+                        Toast.MakeText(viewAD.Context, name + " saved successfully.", ToastLength.Short).Show();
+                    }
+                    else
+                    {
+                        alertDialog.Dismiss();
+                        Toast.MakeText(viewAD.Context, "Sorry! Could not save the property. Please try again.", ToastLength.Short).Show();
+                    }
                 }
             }; 
 
@@ -174,31 +193,48 @@ namespace _1031_Calculator
             return property;
         }
 
+        private void CreateDB()
+        {
+            string dbFile = "Properties.db";
+            if (!File.Exists(dbPath + dbFile))
+            {
+                Stream instream = view.Context.Assets.Open(dbFile);
+                if (!Directory.Exists(dbPath))
+                    Directory.CreateDirectory(dbPath);
+
+                Stream outstream = new FileStream(dbPath + dbFile, FileMode.OpenOrCreate);
+                //transfer bytes from the inputfile to the outputfile
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = instream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    outstream.Write(buffer, 0, len);
+                }
+
+                //Close the streams
+                outstream.Flush();
+                outstream.Close();
+                instream.Close();
+            }
+        }
+
+        private bool IsDuplicateName(string name)
+        {
+            string dbFile = "Properties.db";
+            try
+            {
+                var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
+                var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM Property where name = '" + name + "'");
+                if (count > 0) return true;
+                else return false;
+            }
+            catch (Exception ex) { return true; }
+        }
         private bool SaveToDB(Property property)
         {
             string dbFile = "Properties.db";
             try
             {
-                if (!File.Exists(dbPath + dbFile))
-                {
-                    Stream instream = view.Context.Assets.Open("Properties.db");
-                    if(!Directory.Exists(dbPath))
-                        Directory.CreateDirectory(dbPath);
-
-                    Stream outstream = new FileStream(dbPath + dbFile, FileMode.OpenOrCreate);
-                    //transfer bytes from the inputfile to the outputfile
-                    byte[] buffer = new byte[1024];
-                    int len;
-                    while ((len = instream.Read(buffer, 0, buffer.Length)) > 0) {
-                        outstream.Write(buffer, 0, len);
-                    }
-
-                    //Close the streams
-                    outstream.Flush();
-                    outstream.Close();
-                    instream.Close();
-                }
-
                     var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
                     conn.Insert(property);
                     return true;                
@@ -311,8 +347,18 @@ namespace _1031_Calculator
         {
             var seekSalePrice = view.FindViewById<SeekBar>(Resource.Id.seekSalePrice);
             int progress = 0;
-            if(!string.IsNullOrEmpty(e.Text.ToString())) 
-                progress = Convert.ToInt32(e.Text.ToString());
+            if(!string.IsNullOrEmpty(e.Text.ToString()))
+            {
+                Double sp = 0;
+                Double.TryParse(e.Text.ToString(), out sp);
+                if (sp > seekSalePrice.Max)
+                {
+                    sp = prevSP;
+                    ((EditText)sender).Text = sp.ToString();
+                }
+                progress = (int)sp;
+                prevSP = sp;
+            }
 
             seekSalePrice.Progress = progress;
             SetPercentageComplete();
@@ -323,7 +369,17 @@ namespace _1031_Calculator
             var seekCapitalImprovements = view.FindViewById<SeekBar>(Resource.Id.seekCapitalImprovements);
             int progress = 0;
             if (!string.IsNullOrEmpty(e.Text.ToString()))
-                progress = Convert.ToInt32(e.Text.ToString());
+            {
+                Double ci = 0;
+                Double.TryParse(e.Text.ToString(), out ci);
+                if (ci > seekCapitalImprovements.Max)
+                {
+                    ci = prevCI;
+                    ((EditText)sender).Text = ci.ToString();
+                }
+                progress = (int)ci;
+                prevCI = ci;
+            }
 
             seekCapitalImprovements.Progress = progress;
             SetPercentageComplete();
@@ -334,8 +390,17 @@ namespace _1031_Calculator
             var seekPurchasePrice = view.FindViewById<SeekBar>(Resource.Id.seekPurchasePrice);
             int progress = 0;
             if (!string.IsNullOrEmpty(e.Text.ToString()))
-                progress = Convert.ToInt32(e.Text.ToString());
-            
+            {
+                Double pp = 0;
+                Double.TryParse(e.Text.ToString(), out pp);
+                if (pp > seekPurchasePrice.Max)
+                {
+                    pp = prevPP;
+                    ((EditText)sender).Text = pp.ToString();
+                }
+                progress = (int)pp;
+                prevPP = pp;
+            }
             seekPurchasePrice.Progress = progress;
             SetPercentageComplete();
         }
@@ -391,8 +456,11 @@ namespace _1031_Calculator
 
             percentageComplete = completionStep * 100 / 6;
             var percComplete = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
-            string percText = Html.FromHtml(percentageComplete.ToString() + "%<br>Complete").ToString();
-            percComplete.SetText(percText.ToCharArray(), 0, percText.Length);
+            string percText = percentageComplete.ToString() + "%<br>Complete";
+            SpannableString ss1 = new SpannableString(Html.FromHtml(percText).ToString());
+            ss1.SetSpan(new RelativeSizeSpan(2f), 0, percText.IndexOf('%') + 1,SpanTypes.ExclusiveExclusive); // set size
+            
+            percComplete.SetText(ss1, TextView.BufferType.Spannable);
 
             var button = view.FindViewById<Button>(Resource.Id.calculate);
             if (percentageComplete == 100.00)
@@ -437,8 +505,11 @@ namespace _1031_Calculator
             CalculateTaxRate();
             
             var percTax = view.FindViewById<TextView>(Resource.Id.percentagetax);
-            string percText = Html.FromHtml(percentageTax.ToString() + "%<br>Tax Rate").ToString();
-            percTax.SetText(percText.ToCharArray(), 0, percText.Length);
+            string percText = percentageTax.ToString() + "%<br>Tax Rate";
+            SpannableString ss1 = new SpannableString(Html.FromHtml(percText).ToString());
+            ss1.SetSpan(new RelativeSizeSpan(2f), 0, percText.IndexOf('%') + 1, SpanTypes.ExclusiveExclusive); // set size
+
+            percTax.SetText(ss1, TextView.BufferType.Spannable);
         }
     }
     class SavedProperties : Fragment
@@ -524,7 +595,7 @@ namespace _1031_Calculator
             var view = inflater.Inflate(Resource.Layout.About1031, container, false);
             this.Activity.SetTitle(Resource.String.About1031);
             var listView = view.FindViewById<ExpandableListView>(Resource.Id.expandableListview);
-            //listView.SetAdapter(new AboutExpandableDataAdapter(this.Activity, AboutData.GetFaqs()));
+            listView.SetAdapter(new AboutExpandableDataAdapter(this.Activity, AboutData.GetFaqs()));
             return view;
         }
     }

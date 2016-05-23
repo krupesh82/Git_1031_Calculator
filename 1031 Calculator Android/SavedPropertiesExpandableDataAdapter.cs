@@ -45,6 +45,7 @@ namespace _1031_Calculator
             }
 
             row.FindViewById<TextView>(Resource.Id.liPropertyName).Text = DataList[groupPosition].Name;
+            row.FindViewById<TextView>(Resource.Id.liState).Text = DataList[groupPosition].State;
             row.FindViewById<TextView>(Resource.Id.liMaritalStatus).Text = DataList[groupPosition].MaritalStatus;
             row.FindViewById<TextView>(Resource.Id.liIncomeGroup).Text = DataList[groupPosition].Income;
             row.FindViewById<TextView>(Resource.Id.liPurchasePrice).Text = "Purchase Price: $" + DataList[groupPosition].PurchasePrice.ToString();

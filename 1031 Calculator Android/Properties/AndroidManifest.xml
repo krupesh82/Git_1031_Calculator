@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="x1031_Calculator.x1031_Calculator" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="15" />
-	<application android:label="1031_Calculator"></application>
+	<application android:label="1031 Calculator"
+               android:theme="@android:style/Theme.Holo.Light"></application>
 </manifest>

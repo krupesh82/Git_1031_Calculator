@@ -3,45 +3,51 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="horizontal"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+        <TableRow
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Property Name:" />
-        <TextView
-            android:id="@+id/liPropertyName"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent">
+            <TextView
+                android:id="@+id/liPropertyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="" />
+            <TextView
+                android:id="@+id/liState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="" />
+            <ImageView
+                android:id="@+id/deleteProperty"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:src="@drawable/delete" />
+        </TableRow>
+        <TableRow
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
-        <ImageView
-            android:id="@+id/deleteProperty"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/delete" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/liMaritalStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
-        <TextView
-            android:id="@+id/liIncomeGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
-    </LinearLayout>
+            android:layout_width="fill_parent">
+            <TextView
+                android:id="@+id/liMaritalStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="" />
+            <TextView
+                android:id="@+id/liIncomeGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_span="2"
+                android:text="" />
+        </TableRow>
+    </TableLayout>
     <TextView
         android:id="@+id/liPurchasePrice"
         android:layout_width="wrap_content"

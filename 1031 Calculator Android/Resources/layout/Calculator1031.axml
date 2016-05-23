@@ -9,42 +9,50 @@
     android:orientation="horizontal"
     tools:context=".GridXMLActivity">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginLeft="50dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0% Complete"
         android:textColor="#fff"
         android:background="@drawable/oval"
+        android:gravity="center"
         android:layout_column="0"
         android:layout_row="0"
         android:layout_columnSpan="2"
         android:layout_rowSpan="3"
-        android:id="@+id/percentagecomplete" />
+        android:id="@+id/percentagecomplete"
+        android:layout_marginTop="5dp" />
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="10sp"
         android:background="@drawable/oval"
+        android:gravity="center"
         android:text="0% Tax Rate"
         android:textColor="#fff"
         android:layout_column="2"
         android:layout_row="0"
         android:layout_rowSpan="2"
-        android:id="@+id/percentagetax" />
+        android:id="@+id/percentagetax"
+        android:layout_marginTop="2dp" />
     <Button
         android:layout_width="125dp"
         android:layout_height="35dp"
         android:text="Save Results"
+        android:layout_marginLeft="25dp"
         android:background="@drawable/myButton"
         android:textColor="#fff"
         android:layout_column="2"
         android:layout_row="2"
-        android:id="@+id/saveresults" />
+        android:id="@+id/saveresults"
+        android:layout_marginTop="3dp" />
     <View
-        android:background="@android:color/holo_blue_dark"
+        android:background="#ff54a0e8"
         android:layout_height="2dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:layout_column="0"
         android:layout_row="3"
         android:layout_columnSpan="3"
@@ -58,7 +66,8 @@
         android:layout_column="0"
         android:layout_row="3"
         android:layout_columnSpan="2"
-        android:layout_rowSpan="1" />
+        android:layout_rowSpan="1"
+        android:layout_marginLeft="15dp" />
     <SeekBar
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -70,14 +79,15 @@
         android:layout_columnSpan="2"
         android:layout_rowSpan="1" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/ipPurchasePrice"
         android:layout_weight="0.5"
         android:layout_column="2"
-        android:layout_row="3" />
+        android:layout_row="3"
+        android:layout_marginTop="12dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +97,8 @@
         android:layout_column="0"
         android:layout_row="4"
         android:layout_columnSpan="2"
-        android:layout_rowSpan="1" />
+        android:layout_rowSpan="1"
+        android:layout_marginLeft="15dp" />
     <SeekBar
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -99,14 +110,15 @@
         android:layout_columnSpan="2"
         android:layout_rowSpan="1" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/ipCapitalImprovements"
         android:layout_weight="0.5"
         android:layout_column="2"
-        android:layout_row="4" />
+        android:layout_row="4"
+        android:layout_marginTop="12dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -116,7 +128,8 @@
         android:layout_column="0"
         android:layout_row="5"
         android:layout_columnSpan="2"
-        android:layout_rowSpan="1" />
+        android:layout_rowSpan="1"
+        android:layout_marginLeft="15dp" />
     <SeekBar
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -128,13 +141,14 @@
         android:layout_columnSpan="2"
         android:layout_rowSpan="1" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/ipSalePrice"
         android:layout_column="2"
-        android:layout_row="5" />
+        android:layout_row="5"
+        android:layout_marginTop="12dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,9 +156,10 @@
         android:text="Select State"
         android:id="@+id/lblSelectState"
         android:layout_column="0"
-        android:layout_row="6" />
+        android:layout_row="6"
+        android:layout_marginLeft="15dp" />
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerStates"
         android:layout_column="2"
@@ -157,9 +172,10 @@
         android:text="Marital Status"
         android:id="@+id/lblMaritalStatus"
         android:layout_column="0"
-        android:layout_row="7" />
+        android:layout_row="7"
+        android:layout_marginLeft="15dp" />
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerMaritalStatus"
         android:layout_column="2"
@@ -172,9 +188,10 @@
         android:text="Income"
         android:id="@+id/lblIncome"
         android:layout_column="0"
-        android:layout_row="8" />
+        android:layout_row="8"
+        android:layout_marginLeft="15dp" />
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerIncome"
         android:layout_column="2"
@@ -188,7 +205,8 @@
         android:text="Sponsored by:"
         android:id="@+id/textSponsoredBy"
         android:layout_column="0"
-        android:layout_row="9" />
+        android:layout_row="9"
+        android:layout_marginLeft="15dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -196,7 +214,8 @@
         android:text="HOLM &amp; O'HARA LLP"
         android:id="@+id/textHOLM1"
         android:layout_column="0"
-        android:layout_row="10" />
+        android:layout_row="10"
+        android:layout_marginLeft="15dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -204,7 +223,9 @@
         android:text="HOHLAW.com"
         android:id="@+id/textHOLM2"
         android:layout_column="0"
-        android:layout_row="11" />
+        android:layout_row="11"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-5dp" />
     <Button
         android:layout_width="125dp"
         android:layout_height="35dp"
@@ -213,5 +234,7 @@
         android:textColor="#fff"
         android:layout_column="2"
         android:layout_row="11"
-        android:id="@+id/calculate" />
+        android:id="@+id/calculate"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="-15dp" />
 </GridLayout>
