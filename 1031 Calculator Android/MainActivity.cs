@@ -14,6 +14,9 @@ using System.IO;
 using System.Collections.Generic;
 using static Android.Widget.ExpandableListView;
 using Android.Text.Style;
+using Android.Views;
+using Android.Graphics.Drawables;
+using Android.Graphics;
 
 namespace _1031_Calculator
 {
@@ -26,7 +29,8 @@ namespace _1031_Calculator
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
+            this.ActionBar.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#ff54a0e8")));
+            
             this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             AddTab("1031 Calculator", new Calculator1031());
             AddTab("Saved Properties", new SavedProperties());
@@ -62,27 +66,28 @@ namespace _1031_Calculator
         double percentageComplete = 0.00;
         string maritalStatus;
         double savings = 0.00;
-        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "//";
         double prevPP = 0;
         double prevCI = 0;
         double prevSP = 0;
+                
+        public new int Id {
+            get { return 2131099673; }
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
+            
             view = inflater.Inflate(Resource.Layout.Calculator1031, container, false);
-            this.Activity.SetTitle(Resource.String.Calculator1031);
-
+            this.Activity.Title = Html.FromHtml("<font color='#ffffff'>" + GetString(Resource.String.Calculator1031) + "</font>").ToString();
+            
             SetPercentageComplete();
             SetPercentageTax();
-
-            var pc = view.FindViewById<TextView>(Resource.Id.percentagecomplete);
-            Android.Graphics.Rect outRect = new Android.Graphics.Rect();
-            pc.GetDrawingRect(outRect);
-
+            
             var seekPurchasePrice = view.FindViewById<SeekBar>(Resource.Id.seekPurchasePrice);
             seekPurchasePrice.ProgressChanged += SeekPurchasePrice_ProgressChanged;
-
+            seekPurchasePrice.RequestFocus();
             var seekCapImprovement = view.FindViewById<SeekBar>(Resource.Id.seekCapitalImprovements);
             seekCapImprovement.ProgressChanged += SeekCapImprovement_ProgressChanged;
 
@@ -107,9 +112,65 @@ namespace _1031_Calculator
             var btnSave = view.FindViewById<Button>(Resource.Id.saveresults);
             btnSave.Click += BtnSave_Click;
 
+            RetainInstance = true;
+
             return view;
         }
 
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            var pp = view.FindViewById<EditText>(Resource.Id.ipPurchasePrice);
+            if (!string.IsNullOrEmpty(pp.Text))
+                outState.PutDouble("pp", Convert.ToDouble(pp.Text));
+
+            var ci = view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements);
+            if (!string.IsNullOrEmpty(ci.Text))
+                outState.PutDouble("ci", Convert.ToDouble(ci.Text));
+
+            var sp = view.FindViewById<EditText>(Resource.Id.ipSalePrice);
+            if (!string.IsNullOrEmpty(sp.Text))
+                outState.PutDouble("sp", Convert.ToDouble(sp.Text));
+
+            var state = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
+            if (state.SelectedItem != null)
+                outState.PutInt("state", state.SelectedItemPosition);
+
+            var ms = view.FindViewById<Spinner>(Resource.Id.spinnerMaritalStatus);
+            if (ms.SelectedItem != null)
+                outState.PutInt("ms", ms.SelectedItemPosition);
+
+            var income = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
+            if (income.SelectedItem != null)
+                outState.PutInt("income", income.SelectedItemPosition);
+        }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            if (savedInstanceState != null)
+            {
+                var pp = view.FindViewById<EditText>(Resource.Id.ipPurchasePrice);
+                pp.Text = savedInstanceState.GetDouble("pp").ToString();
+
+                var ci = view.FindViewById<EditText>(Resource.Id.ipCapitalImprovements);
+                ci.Text = savedInstanceState.GetDouble("ci").ToString();
+
+                var sp = view.FindViewById<EditText>(Resource.Id.ipSalePrice);
+                sp.Text = savedInstanceState.GetDouble("sp").ToString();
+
+                var state = view.FindViewById<Spinner>(Resource.Id.spinnerStates);
+                state.SetSelection(savedInstanceState.GetInt("state"));
+
+                var ms = view.FindViewById<Spinner>(Resource.Id.spinnerMaritalStatus);
+                ms.SetSelection(savedInstanceState.GetInt("ms"));
+
+                var income = view.FindViewById<Spinner>(Resource.Id.spinnerIncome);
+                income.SetSelection(savedInstanceState.GetInt("income"));                
+            }
+        }
+        
         private void BtnSave_Click(object sender, EventArgs e)
         {
             CreateDB();
@@ -192,7 +253,7 @@ namespace _1031_Calculator
 
             return property;
         }
-
+        
         private void CreateDB()
         {
             string dbFile = "Properties.db";
@@ -514,14 +575,19 @@ namespace _1031_Calculator
     }
     class SavedProperties : Fragment
     {
-        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+        string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "//";
         int lastExpandedGroup = -1;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = inflater.Inflate(Resource.Layout.SavedProperties, container, false);
-            this.Activity.SetTitle(Resource.String.SavedProperties);
+            //this.Activity.SetTitle(Resource.String.SavedProperties);
+            string title = GetString(Resource.String.SavedProperties);
+            SpannableString s = new SpannableString(title);
+            s.SetSpan(new ForegroundColorSpan(Color.White), 0, title.Length, SpanTypes.ExclusiveExclusive);
+            this.Activity.Title = s.ToString();
+            //this.Activity.Title = Html.FromHtml("<font color='ffffff'>" + GetString(Resource.String.SavedProperties) + "</font>").ToString();
 
             int count = GetCount();
 
@@ -545,9 +611,14 @@ namespace _1031_Calculator
                 var expandListener = new SavedPropertiesExpandableDataAdapter(this.Activity, properties);
                 elv.SetAdapter(expandListener);
                 elv.GroupExpand += Elv_GroupExpand;
-            }            
-
+            }                
+            RetainInstance = true;
             return view;
+        }
+
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
         }
 
         private void Elv_GroupExpand(object sender, GroupExpandEventArgs e)
@@ -579,7 +650,7 @@ namespace _1031_Calculator
             try
             {
                 var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
-                List<Property> properties = conn.Table<Property>().ToList<Property>();
+                List<Property> properties = conn.Table<Property>().OrderByDescending(p => p.ID).ToList();
                 return properties;
 
             }
@@ -593,9 +664,11 @@ namespace _1031_Calculator
             base.OnCreateView(inflater, container, savedInstanceState);
 
             var view = inflater.Inflate(Resource.Layout.About1031, container, false);
-            this.Activity.SetTitle(Resource.String.About1031);
+            //this.Activity.SetTitle(Resource.String.About1031);
+            this.Activity.Title = Html.FromHtml("<font color='#ffffff'>" + GetString(Resource.String.About1031) + "</font>").ToString();
             var listView = view.FindViewById<ExpandableListView>(Resource.Id.expandableListview);
             listView.SetAdapter(new AboutExpandableDataAdapter(this.Activity, AboutData.GetFaqs()));
+            RetainInstance = true;
             return view;
         }
     }
@@ -604,8 +677,10 @@ namespace _1031_Calculator
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
-            this.Activity.SetTitle(Resource.String.Disclaimer);
+            //this.Activity.SetTitle(Resource.String.Disclaimer);
+            this.Activity.Title = Html.FromHtml("<font color='#ffffff'>" + GetString(Resource.String.Disclaimer) + "</font>").ToString();
             var view = inflater.Inflate(Resource.Layout.Disclaimer, container, false);
+            RetainInstance = true;
             return view;
         }
     }

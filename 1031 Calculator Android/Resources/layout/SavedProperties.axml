@@ -6,9 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="No Properties have been saved."
-        android:textColor="#fff"
         android:id="@+id/NoPropSaved" />
     <ExpandableListView
         android:id="@+id/elvSavedProperties"

@@ -26,6 +26,14 @@ namespace _1031_Calculator
 
         public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
         {
+            if (DataList == null || DataList.Count == 0)
+            {
+                var textView = Context.FindViewById<TextView>(Resource.Id.NoPropSaved);
+                textView.Visibility = ViewStates.Visible;
+
+                var elv = Context.FindViewById<ExpandableListView>(Resource.Id.elvSavedProperties);
+                elv.Visibility = ViewStates.Invisible;
+            }
             View header = convertView;
             if (header == null)
             {
@@ -72,7 +80,7 @@ namespace _1031_Calculator
 
                 try
                 {
-                    string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+                    string dbPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "//";
                     string dbFile = "Properties.db";
                     var conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid(), dbPath + dbFile);
                     int count = conn.ExecuteScalar<int>("DELETE FROM Property where name='" + name + "'");
@@ -81,6 +89,15 @@ namespace _1031_Calculator
                     DataList.Remove(DataList.Find(d => d.Name == name));
                     alert.Dispose();
                     NotifyDataSetChanged();
+
+                    if (DataList == null || DataList.Count == 0)
+                    {
+                        var textView = Context.FindViewById<TextView>(Resource.Id.NoPropSaved);
+                        textView.Visibility = ViewStates.Visible;
+
+                        var elv = Context.FindViewById<ExpandableListView>(Resource.Id.elvSavedProperties);
+                        elv.Visibility = ViewStates.Invisible;
+                    }
                 }
                 catch (Exception ex)
                 {
