@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	xmlns:abstractions="clr-namespace:RoundedBoxView.Forms.Plugin.Abstractions;assembly=RoundedBoxView.Forms.Plugin.Abstractions"
+	x:Class="Calculator1031.Calculator">
+		<Grid x:Name="gridCalc" RowSpacing="2" ColumnSpacing="5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="5" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0" />
+				<RowDefinition Height="30" />
+				<RowDefinition Height="150" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="15" />
+			</Grid.RowDefinitions>
+		
+			<Label Text="1031 Exchange Calculator"
+				Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="#ff54a0e8"
+				FontAttributes="Bold" FontSize="18"
+				TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+				HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+			<Grid Grid.Row="2" Grid.Column="1" >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="130" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="130" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<abstractions:RoundedBoxView x:Name="percComplete" BackgroundColor="#ff54a0e8" 
+					Grid.Row="1" Grid.Column="1"
+					WidthRequest="130" HeightRequest="130"
+					CornerRadius= "65" />
+				<Label x:Name="lblPercComplete" TextColor="White" BackgroundColor="Transparent"
+					Text="0% Complete" Grid.Row="1" Grid.Column="1"
+					VerticalOptions="Center" HorizontalOptions="Center" />	
+
+			</Grid>
+
+			<StackLayout Grid.Row="2" Grid.Column="2" >
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="100" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="100" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+
+					<abstractions:RoundedBoxView x:Name="percTax" BackgroundColor="#ff54a0e8" 
+						Grid.Row="1" Grid.Column="1"
+						WidthRequest="100" HeightRequest="100"
+						CornerRadius= "50" />
+					<Label x:Name="lblPercTax" TextColor="White" BackgroundColor="Transparent"
+						Text="0% Complete" Grid.Row="1" Grid.Column="1"
+						VerticalOptions="Center" HorizontalOptions="Center" />
+
+				</Grid>
+
+				<Button x:Name="btnSave" Text="Save"
+					BackgroundColor="#ff54a0e8" TextColor="White"
+					HorizontalOptions="FillAndExpand" VerticalOptions="End" 
+					HeightRequest="30" Clicked="btnSave_Clicked" />
+
+			</StackLayout>
+
+			<BoxView HorizontalOptions="Fill" HeightRequest="2"
+				VerticalOptions="Start" Grid.Row="3" Grid.ColumnSpan="4"
+				BackgroundColor="#ff54a0e8"  />
+			<StackLayout Spacing="2" Grid.Row="3" Grid.Column="1" >
+				<Label Text="Purchase Price of Property" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Slider x:Name="sliderPP" Minimum="0" Maximum="20000000" ValueChanged="SliderPP_ValueChanged" />
+			</StackLayout>
+			<Entry x:Name="entryPP" Placeholder="$" TextChanged="EntryPP_TextChanged" Keyboard="Numeric"
+				Grid.Row="3" Grid.Column="2" TextColor="Black"
+				HorizontalOptions="Fill" VerticalOptions="Center" />
+
+			<StackLayout Spacing="2" Grid.Row="4" Grid.Column="1" >
+				<Label Text="Capital Improvements" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Slider x:Name="sliderCI" Minimum="0" Maximum="20000000" ValueChanged="SliderCI_ValueChanged" />
+			</StackLayout>
+			<Entry x:Name="entryCI" Placeholder="$" TextChanged="EntryCI_TextChanged" Keyboard="Numeric"
+				Grid.Row="4" Grid.Column="2" TextColor="Black"
+				HorizontalOptions="Fill" VerticalOptions="Center" />
+
+			<StackLayout Spacing="2" Grid.Row="5" Grid.Column="1" >
+				<Label Text="Sale Price" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Slider x:Name="sliderSP" Minimum="0" Maximum="20000000" ValueChanged="SliderSP_ValueChanged" />
+			</StackLayout>
+			<Entry x:Name="entrySP" Placeholder="$" TextChanged="EntrySP_TextChanged" Keyboard="Numeric"
+				Grid.Row="5" Grid.Column="2" TextColor="Black"
+				HorizontalOptions="Fill" VerticalOptions="Center" />
+
+			<Label Text="Select State" TextColor="Black"
+				Grid.Row="6" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
+			<Picker x:Name="pickerState" Grid.Row="6" Grid.Column="2" 
+				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"
+				SelectedIndexChanged="pickerState_SelectedIndexChanged"
+				 />
+
+			<Label Text="Marital Status" TextColor="Black"
+				Grid.Row="7" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
+			<Picker x:Name="pickerMS" Grid.Row="7" Grid.Column="2" 
+				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"
+				SelectedIndexChanged="pickerMS_SelectedIndexChanged"
+				 />
+
+			<Label Text="Income" TextColor="Black"
+				Grid.Row="8" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
+			<Picker x:Name="pickerIncome" Grid.Row="8" Grid.Column="2" 
+				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"
+				SelectedIndexChanged="pickerIncome_SelectedIndexChanged"
+				 />
+
+			<StackLayout Spacing="2" Grid.Row="9" Grid.Column="1" >
+				<Label Text="Sponsored by:" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Label Text="HOLM &amp; O'HARA LLP" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Label Text="" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+				<Label Text="HOHLAW.com" TextColor="Black"
+					HorizontalOptions="Start" VerticalOptions="Center" />
+			</StackLayout>
+			<Button x:Name="btnCalculate" Grid.Row="9" Grid.Column="2"
+				Text="Calculate" BackgroundColor="#ff54a0e8" TextColor="White"
+				HorizontalOptions="FillAndExpand" VerticalOptions="End" HeightRequest="30" 
+				Clicked = "btnCalculate_Clicked" />
+		</Grid>
+</ContentPage>

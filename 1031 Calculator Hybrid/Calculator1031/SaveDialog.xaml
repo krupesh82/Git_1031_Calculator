@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Calculator1031.SaveDialog">
+	<StackLayout Spacing="3" HorizontalOptions="Center" VerticalOptions="Center" Padding="10,0,10,0">
+		<Label Text="Please Enter the Property Name:" />
+		<Entry x:Name="entryName" />
+		<Button x:Name="btnSaveName" Text="Save" BackgroundColor="#ff54a0e8" 
+			TextColor="White" Clicked="btnSaveName_Clicked" />
+		<Button x:Name="btnDismiss" Text="Dismiss" BackgroundColor="#ff54a0e8" 
+			TextColor="White" Clicked="btnDismiss_Clicked" />
+	</StackLayout>
+</ContentPage>
