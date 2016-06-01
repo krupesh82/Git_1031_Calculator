@@ -115,26 +115,9 @@ namespace Calculator1031
 			
 			double pp = 0.0;
 
-			if (Double.TryParse (e.NewTextValue, out pp) && pp > sliderPP.Maximum)
-				double.TryParse (e.OldTextValue, out pp);
+			if (!Double.TryParse (e.NewTextValue, out pp))
+				Double.TryParse (e.OldTextValue, out pp);
 
-			sliderPP.Value = pp;
-			entryPP.Text = pp.ToString ();
-
-			UpdatePercentageComplete ();
-		}
-
-		public void SliderPP_ValueChanged(object sender, ValueChangedEventArgs e)
-		{
-			if (e.NewValue == e.OldValue)
-				return;
-			
-			double pp = e.NewValue;
-
-			if (pp > sliderPP.Maximum)
-				pp = e.OldValue;
-
-			sliderPP.Value = pp;
 			entryPP.Text = pp.ToString ();
 
 			UpdatePercentageComplete ();
@@ -147,26 +130,9 @@ namespace Calculator1031
 			
 			double ci = 0.0;
 
-			if (Double.TryParse (e.NewTextValue, out ci) && ci > sliderCI.Maximum)
-				double.TryParse (e.OldTextValue, out ci);
-
-			sliderCI.Value = ci;
-			entryCI.Text = ci.ToString ();
-
-			UpdatePercentageComplete ();
-		}
-
-		public void SliderCI_ValueChanged(object sender, ValueChangedEventArgs e)
-		{
-			if (e.NewValue == e.OldValue)
-				return;
+			if (!Double.TryParse (e.NewTextValue, out ci))
+				Double.TryParse (e.OldTextValue, out ci);
 			
-			double ci = e.NewValue;
-
-			if (ci > sliderCI.Maximum)
-				ci = e.OldValue;
-
-			sliderCI.Value = ci;
 			entryCI.Text = ci.ToString ();
 
 			UpdatePercentageComplete ();
@@ -179,26 +145,9 @@ namespace Calculator1031
 
 			double sp = 0.0;
 
-			if (Double.TryParse (e.NewTextValue, out sp) && sp > sliderSP.Maximum)
-				double.TryParse (e.OldTextValue, out sp);
+			if (!Double.TryParse (e.NewTextValue, out sp))
+				Double.TryParse (e.OldTextValue, out sp);
 
-			sliderSP.Value = sp;
-			entrySP.Text = sp.ToString ();
-
-			UpdatePercentageComplete ();
-		}
-
-		public void SliderSP_ValueChanged(object sender, ValueChangedEventArgs e)
-		{
-			if (e.NewValue == e.OldValue)
-				return;
-			
-			double sp = e.NewValue;
-
-			if (sp > sliderSP.Maximum)
-				sp = e.OldValue;
-
-			sliderSP.Value = sp;
 			entrySP.Text = sp.ToString ();
 
 			UpdatePercentageComplete ();

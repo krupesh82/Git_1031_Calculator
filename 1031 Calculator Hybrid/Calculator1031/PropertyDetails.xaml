@@ -18,46 +18,46 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Label x:Name="lblName" Grid.Row="0" Grid.Column="1" FontSize="10"
+		<Label x:Name="lblName" Grid.Row="0" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblState" Grid.Row="0" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblState" Grid.Row="0" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblMaritalStatus" Grid.Row="1" Grid.Column="1" FontSize="10"
+		<Label x:Name="lblMaritalStatus" Grid.Row="1" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblIncome" Grid.Row="1" Grid.Column="2" FontSize="10" 
+		<Label x:Name="lblIncome" Grid.Row="1" Grid.Column="2" FontSize="14" 
 			VerticalTextAlignment="Center" />	
 
-		<Label Text="Purchase Price: " Grid.Row="2" Grid.Column="1" FontSize="10"
+		<Label Text="Purchase Price: " Grid.Row="2" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblPP" Grid.Row="2" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblPP" Grid.Row="2" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label Text="Capital Improvements: " Grid.Row="3" Grid.Column="1" FontSize="10"
+		<Label Text="Capital Improvements: " Grid.Row="3" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblCI" Grid.Row="3" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblCI" Grid.Row="3" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label Text="Sale Price: " Grid.Row="4" Grid.Column="1" FontSize="10"
+		<Label Text="Sale Price: " Grid.Row="4" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblSP" Grid.Row="4" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblSP" Grid.Row="4" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label Text="Tax Rate: " Grid.Row="5" Grid.Column="1" FontSize="10"
+		<Label Text="Tax Rate: " Grid.Row="5" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />
 
-		<Label x:Name="lblTaxRate" Grid.Row="5" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblTaxRate" Grid.Row="5" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label Text="1031 Savings: " Grid.Row="6" Grid.Column="1" FontSize="10"
+		<Label Text="1031 Savings: " Grid.Row="6" Grid.Column="1" FontSize="14"
 			VerticalTextAlignment="Center" />	
 
-		<Label x:Name="lblSavings" Grid.Row="6" Grid.Column="2" FontSize="10"
+		<Label x:Name="lblSavings" Grid.Row="6" Grid.Column="2" FontSize="14"
 			VerticalTextAlignment="Center" />	
 	</Grid>
 </ContentPage>

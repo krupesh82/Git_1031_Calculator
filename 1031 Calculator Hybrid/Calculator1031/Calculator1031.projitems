@@ -62,6 +62,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\delete.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\about.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\calculator.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\disclaimer.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\save.svg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Resources\" />

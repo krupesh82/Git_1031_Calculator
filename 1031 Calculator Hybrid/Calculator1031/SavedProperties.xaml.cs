@@ -55,6 +55,7 @@ namespace Calculator1031
 					propName.HorizontalOptions = LayoutOptions.StartAndExpand;
 					propName.VerticalOptions = LayoutOptions.Center;
 					propName.FontSize = 14;
+					propName.FontAttributes = FontAttributes.Bold;
 
 					nameBox.Children.Add(propName);
 

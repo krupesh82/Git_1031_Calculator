@@ -25,7 +25,7 @@
 			</Grid.RowDefinitions>
 		
 			<Label Text="1031 Exchange Calculator"
-				Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="#ff54a0e8"
+				Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="#ff54a0e8ff54a0e8"
 				FontAttributes="Bold" FontSize="18"
 				TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
 				HorizontalOptions="Fill" VerticalOptions="Fill" />
@@ -86,29 +86,21 @@
 			<BoxView HorizontalOptions="Fill" HeightRequest="2"
 				VerticalOptions="Start" Grid.Row="3" Grid.ColumnSpan="4"
 				BackgroundColor="#ff54a0e8"  />
-			<StackLayout Spacing="2" Grid.Row="3" Grid.Column="1" >
-				<Label Text="Purchase Price of Property" TextColor="Black"
-					HorizontalOptions="Start" VerticalOptions="Center" />
-				<Slider x:Name="sliderPP" Minimum="0" Maximum="20000000" ValueChanged="SliderPP_ValueChanged" />
-			</StackLayout>
+			
+			<Label Text="Purchase Price of Property" TextColor="Black" Grid.Row="3" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
 			<Entry x:Name="entryPP" Placeholder="$" TextChanged="EntryPP_TextChanged" Keyboard="Numeric"
 				Grid.Row="3" Grid.Column="2" TextColor="Black"
 				HorizontalOptions="Fill" VerticalOptions="Center" />
 
-			<StackLayout Spacing="2" Grid.Row="4" Grid.Column="1" >
-				<Label Text="Capital Improvements" TextColor="Black"
-					HorizontalOptions="Start" VerticalOptions="Center" />
-				<Slider x:Name="sliderCI" Minimum="0" Maximum="20000000" ValueChanged="SliderCI_ValueChanged" />
-			</StackLayout>
+			<Label Text="Capital Improvements" TextColor="Black" Grid.Row="4" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
 			<Entry x:Name="entryCI" Placeholder="$" TextChanged="EntryCI_TextChanged" Keyboard="Numeric"
 				Grid.Row="4" Grid.Column="2" TextColor="Black"
 				HorizontalOptions="Fill" VerticalOptions="Center" />
 
-			<StackLayout Spacing="2" Grid.Row="5" Grid.Column="1" >
-				<Label Text="Sale Price" TextColor="Black"
-					HorizontalOptions="Start" VerticalOptions="Center" />
-				<Slider x:Name="sliderSP" Minimum="0" Maximum="20000000" ValueChanged="SliderSP_ValueChanged" />
-			</StackLayout>
+			<Label Text="Sale Price" TextColor="Black" Grid.Row="5" Grid.Column="1"
+				HorizontalOptions="Start" VerticalOptions="Center" />
 			<Entry x:Name="entrySP" Placeholder="$" TextChanged="EntrySP_TextChanged" Keyboard="Numeric"
 				Grid.Row="5" Grid.Column="2" TextColor="Black"
 				HorizontalOptions="Fill" VerticalOptions="Center" />
