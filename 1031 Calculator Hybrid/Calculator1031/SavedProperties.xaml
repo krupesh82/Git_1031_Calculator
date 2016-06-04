@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Calculator1031.SavedProperties">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="Calculator1031.SavedProperties" >
 	<ScrollView>
 		<Grid x:Name="gridSavedProperties" >
 			<Grid.ColumnDefinitions>
@@ -14,14 +15,19 @@
 			</Grid.RowDefinitions>
 
 			<Label Text="Saved Properties"
-					Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="#ff54a0e8"
-					FontAttributes="Bold" FontSize="18"
-					TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
-					HorizontalOptions="Fill" VerticalOptions="Fill" />
+				Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="#ff54a0e8"
+				FontAttributes="Bold" FontSize="18"
+				TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+				HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+			<Label x:Name="lblNoProperties" VerticalOptions="Fill" HorizontalOptions="Fill"
+				VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+				Grid.Column="1" Grid.Row="2" IsVisible="false" TextColor="Black"
+				Text="No properties have been saved." />
 
 			<StackLayout BackgroundColor="White" x:Name="layoutPropertyStack"
 				VerticalOptions="Fill" HorizontalOptions="Fill" 
-				Grid.Row = "2" Grid.Column="1" >
+				Grid.Row = "2" Grid.Column="1" IsVisible="true" >
 
 			</StackLayout>
 		</Grid>

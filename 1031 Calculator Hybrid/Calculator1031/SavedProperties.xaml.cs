@@ -9,23 +9,23 @@ namespace Calculator1031
 {
 	public partial class SavedProperties : ContentPage
 	{
-		string deleteImage = "";
-
+		
 		public SavedProperties ()
 		{
 			InitializeComponent ();
 
 			#if __IOS__
 			gridSavedProperties.RowDefinitions[0].Height = new GridLength(20);
-			deleteImage = "Calculator1031.iOS.Resources.delete.jpg";
+			//deleteImage = "Calculator1031.iOS.Resources.delete.jpg";
 			#endif
 			#if __ANDROID__
 			gridSavedProperties.RowDefinitions[0].Height = new GridLength(0);
-			deleteImage = "Calculator1031.Droid.Resources.delete.jpg";
+			gridSavedProperties.RowDefinitions[1].Height = new GridLength(50);
+			//deleteImage = "Calculator1031.Droid.Resources.delete.jpg";
 			#endif
 			#if WINDOWS_PHONE
 			gridSavedProperties.RowDefinitions[0].Height = new GridLength(0);
-			deleteImage = "Calculator1031.WinPhone.Resources.delete.jpg";
+			//deleteImage = "Calculator1031.WinPhone.Resources.delete.jpg";
 			#endif
 
 			PopulateProperties ();
@@ -39,76 +39,94 @@ namespace Calculator1031
 
 				List<Property> properties = new DBHelper ().GetAllProperties ();
 
-				foreach (Property property in properties) {
-					StackLayout hLayout = new StackLayout ();
-					hLayout.Orientation = StackOrientation.Horizontal;
-					hLayout.HorizontalOptions = LayoutOptions.FillAndExpand;
+				if(properties == null || properties.Count <= 0)
+				{
+					lblNoProperties.IsVisible = true;
+					layoutPropertyStack.IsVisible = false;
+				}
+				else
+				{
+					lblNoProperties.IsVisible = false;
+					layoutPropertyStack.IsVisible = true;
 
-					StackLayout nameBox = new StackLayout();
-					nameBox.BackgroundColor = Color.Transparent;
-					nameBox.HorizontalOptions = LayoutOptions.FillAndExpand;
-					nameBox.VerticalOptions = LayoutOptions.Fill;
-					nameBox.Orientation = StackOrientation.Horizontal;
+					foreach (Property property in properties) {
+						StackLayout hLayout = new StackLayout ();
+						hLayout.Orientation = StackOrientation.Horizontal;
+						hLayout.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-					Label propName = new Label ();
-					propName.Text = property.Name;
-					propName.HorizontalOptions = LayoutOptions.StartAndExpand;
-					propName.VerticalOptions = LayoutOptions.Center;
-					propName.FontSize = 14;
-					propName.FontAttributes = FontAttributes.Bold;
+						StackLayout nameBox = new StackLayout();
+						nameBox.BackgroundColor = Color.Transparent;
+						nameBox.HorizontalOptions = LayoutOptions.FillAndExpand;
+						nameBox.VerticalOptions = LayoutOptions.Fill;
+						nameBox.Orientation = StackOrientation.Horizontal;
+						nameBox.HeightRequest = 20;
+						Label propName = new Label ();
+						propName.Text = property.Name;
+						propName.HorizontalOptions = LayoutOptions.StartAndExpand;
+						propName.VerticalOptions = LayoutOptions.Center;
+						propName.FontSize = 16;
+						propName.FontAttributes = FontAttributes.Bold;
+						propName.TextColor = Color.Black;
 
-					nameBox.Children.Add(propName);
+						nameBox.Children.Add(propName);
 
-					hLayout.Children.Add (nameBox);
+						hLayout.Children.Add (nameBox);
 
-					Button btnDelete = new Button();
-					btnDelete.Text = "X";
-					btnDelete.TextColor = Color.White;
-					btnDelete.FontAttributes = FontAttributes.Bold;
-					btnDelete.BackgroundColor = Color.Red;
-					btnDelete.HorizontalOptions = LayoutOptions.End;
-					btnDelete.VerticalOptions = LayoutOptions.Center;
-					btnDelete.WidthRequest = 15;
-					btnDelete.HeightRequest = 15;
+						Image btnDelete = new Image();
 
-					hLayout.Children.Add (btnDelete);
+						//Button btnDelete = new Button();
+						//btnDelete.Text = "X";
+						btnDelete.Source = FileImageSource.FromFile("delete_trash.png");
+						//btnDelete.TextColor = Color.White;
+						//btnDelete.FontAttributes = FontAttributes.Bold;
+						//btnDelete.BackgroundColor = Color.Blue;
+						btnDelete.HorizontalOptions = LayoutOptions.End;
+						btnDelete.VerticalOptions = LayoutOptions.Center;
+						btnDelete.WidthRequest = 18;
+						btnDelete.HeightRequest = 18;
 
-					layoutPropertyStack.Children.Add (hLayout);
+						hLayout.Children.Add (btnDelete);
 
-					PropertyDetails details = new PropertyDetails ();
-					details.SetPropertyDetails (property);
+						layoutPropertyStack.Children.Add (hLayout);
 
-					Grid view = details.GridView;
-					view.HeightRequest = 70;
-					view.HorizontalOptions = LayoutOptions.Fill;
-					view.IsVisible = false;
+						PropertyDetails details = new PropertyDetails ();
+						details.SetPropertyDetails (property);
 
-					layoutPropertyStack.Children.Add (view);
+						Grid view = details.GridView;
+						view.HeightRequest = 150;
+						view.HorizontalOptions = LayoutOptions.Fill;
+						view.IsVisible = false;
 
-					BoxView titleLine = new BoxView();
-					titleLine.HeightRequest = 1;
-					titleLine.HorizontalOptions = LayoutOptions.Fill;
-					titleLine.BackgroundColor=Color.Gray;
+						layoutPropertyStack.Children.Add (view);
 
-					layoutPropertyStack.Children.Add(titleLine);
+						BoxView titleLine = new BoxView();
+						titleLine.HeightRequest = 1;
+						titleLine.HorizontalOptions = LayoutOptions.Fill;
+						titleLine.BackgroundColor=Color.Gray;
 
-					var tapGestureOnName = new TapGestureRecognizer ();
-					tapGestureOnName.Tapped += (object sender, EventArgs e) => {
-						view.IsVisible = !view.IsVisible;
-					};
+						layoutPropertyStack.Children.Add(titleLine);
 
-					nameBox.GestureRecognizers.Add (tapGestureOnName);
+						var tapGestureOnName = new TapGestureRecognizer ();
+						tapGestureOnName.Tapped += (object sender, EventArgs e) => {
+							view.IsVisible = !view.IsVisible;
+						};
 
-					btnDelete.Clicked += async (object sender, EventArgs e) => {
-						
-						bool task = await DisplayAlert("Delete Property", "Are you sure you want to delete '' property?", "Yes", "No");
+						nameBox.GestureRecognizers.Add (tapGestureOnName);
 
-						if(task){
-							DBHelper dbHelper = new DBHelper ();
-							dbHelper.DeleteProperty (property.ID);
-							PopulateProperties();
-						}
-					};
+						var tapGestureOnDelete = new TapGestureRecognizer ();
+						tapGestureOnDelete.Tapped += async (object sender, EventArgs e) => {
+							bool task = await DisplayAlert("Delete Property", "Are you sure you want to delete '"+ property.Name +"' property?", "Yes", "No");
+
+							if(task){
+								DBHelper dbHelper = new DBHelper ();
+								dbHelper.DeleteProperty (property.ID);
+								PopulateProperties();
+							}
+						};
+
+						btnDelete.GestureRecognizers.Add (tapGestureOnDelete);
+
+					}
 				}
 			});
 		}

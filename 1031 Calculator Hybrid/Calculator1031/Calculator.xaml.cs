@@ -19,13 +19,32 @@ namespace Calculator1031
 		{
 			InitializeComponent ();
 
+			//this.Icon = "calculator.svg";
+
 			#if __IOS__
 				resourcePrefix = "Calculator1031.iOS.";
 				gridCalc.RowDefinitions[0].Height = new GridLength(20);
+				gridPercComplete.RowDefinitions[1].Height = new GridLength(130);
+				gridPercComplete.ColumnDefinitions[1].Width = new GridLength(130);
+			//this.Icon = ImageSource.FromFile("Calculator.svg");
 			#endif
 			#if __ANDROID__
 				resourcePrefix = "Calculator1031.Droid.";
 				gridCalc.RowDefinitions[0].Height = new GridLength(0);
+				gridCalc.RowDefinitions[1].Height = new GridLength(50);
+				gridCalc.RowDefinitions[3].Height = new GridLength(40);
+				gridCalc.RowDefinitions[4].Height = new GridLength(40);
+				gridCalc.RowDefinitions[5].Height = new GridLength(40);
+				gridCalc.RowDefinitions[6].Height = new GridLength(40);
+				gridCalc.RowDefinitions[7].Height = new GridLength(40);
+				gridCalc.RowDefinitions[8].Height = new GridLength(40);
+				gridCalc.RowDefinitions[10].Height = new GridLength(0);
+				gridPercComplete.RowDefinitions[1].Height = new GridLength(140);
+				gridPercComplete.ColumnDefinitions[1].Width = new GridLength(140);
+				btnSave.HeightRequest = 40;
+				btnCalculate.HeightRequest = 40;
+				blankText.HeightRequest=0;
+
 			#endif
 			#if WINDOWS_PHONE
 				resourcePrefix = "Calculator1031.WinPhone.";
@@ -40,6 +59,18 @@ namespace Calculator1031
 				btnCalculate.IsEnabled = false;
 			else
 				btnCalculate.IsEnabled = true;
+
+			var s = new FormattedString ();
+			s.Spans.Add (new Span{ Text = percentageTax.ToString () + "%", FontSize= 27, FontAttributes = FontAttributes.Bold });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "Tax Rate", FontSize= 16 });
+			lblPercTax.FormattedText = s;
+
+			s = new FormattedString ();
+			s.Spans.Add (new Span{ Text = percentageTax.ToString () + "%", FontSize= 34, FontAttributes = FontAttributes.Bold });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "Complete", FontSize= 16 });
+			lblPercComplete.FormattedText = s;
 		}
 
 		private void PopulateStates()
@@ -175,7 +206,11 @@ namespace Calculator1031
 		private void UpdateTaxRate()
 		{
 			percentageTax = CalculateTaxRate ();
-			lblPercTax.Text = percentageTax.ToString() + "% Tax Rate";
+			var s = new FormattedString ();
+			s.Spans.Add (new Span{ Text = percentageTax.ToString () + "%", FontSize= 27, FontAttributes = FontAttributes.Bold });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "Tax Rate", FontSize= 16 });
+			lblPercTax.FormattedText = s;
 		}
 
 		private double CalculateTaxRate()
@@ -223,8 +258,11 @@ namespace Calculator1031
 				count++;
 
 			percentageComplete = count * 100 / 6;
-			string complete = percentageComplete.ToString () + "% Complete";
-			lblPercComplete.Text = complete;
+			var s = new FormattedString ();
+			s.Spans.Add (new Span{ Text = percentageComplete.ToString () + "%", FontSize= 34, FontAttributes = FontAttributes.Bold });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "Complete", FontSize= 16 });
+			lblPercComplete.FormattedText = s;
 
 			if (percentageComplete != 100.0)
 				btnCalculate.IsEnabled = false;
@@ -259,7 +297,11 @@ namespace Calculator1031
 		public void btnCalculate_Clicked(object sender, EventArgs e)
 		{
 			CalculateSavings ();
-			lblPercComplete.Text = "Your 1031 savings: $" + savings.ToString();
+			var s = new FormattedString ();
+			s.Spans.Add (new Span{ Text = "Your 1031 savings:", FontSize= 16 });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "$" + savings.ToString (), FontSize= 24, FontAttributes = FontAttributes.Bold });
+			lblPercComplete.FormattedText = s;
 		}
 
 		private Property GetProperty()

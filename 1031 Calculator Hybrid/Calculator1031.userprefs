@@ -1,40 +1,21 @@
 ﻿<Properties StartupItem="iOS/Calculator1031.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.0" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator1031/PropertyDetails.xaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator1031/Calculator.xaml.cs">
     <Files>
-      <File FileName="Calculator1031/Calculator.xaml.cs" Line="33" Column="10" />
-      <File FileName="Calculator1031/Calculator.xaml" Line="32" Column="18" />
-      <File FileName="Calculator1031/PropertyDetails.xaml" Line="59" Column="57" />
-      <File FileName="Calculator1031/SavedProperties.xaml" Line="9" Column="34" />
-      <File FileName="Calculator1031/SavedProperties.xaml.cs" Line="35" Column="31" />
-      <File FileName="Calculator1031/PropertyDetails.xaml.cs" Line="12" Column="29" />
-      <File FileName="iOS/obj/iPhoneSimulator/Debug/Calculator1031.iOS..Users.swatigupta.Projects.Calculator.Calculator1031.Calculator1031.MainPage.xaml.g.cs" Line="21" Column="1" />
+      <File FileName="Calculator1031/Calculator.xaml" Line="157" Column="1" />
+      <File FileName="Calculator1031/Calculator.xaml.cs" Line="29" Column="28" />
+      <File FileName="Droid/Resources/values/style.xml" Line="5" Column="48" />
+      <File FileName="Calculator1031/SavedProperties.xaml" Line="27" Column="1" />
+      <File FileName="Calculator1031/SavedProperties.xaml.cs" Line="85" Column="6" />
+      <File FileName="Calculator1031/Disclaimer.xaml" Line="23" Column="5" />
+      <File FileName="iOS/AppDelegate.cs" Line="17" Column="40" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Calculator1031" expanded="True">
-            <Node name="Calculator1031" expanded="True">
-              <Node name="Calculator.xaml" expanded="True" />
-              <Node name="MainPage.xaml" expanded="True" />
-              <Node name="PropertyDetails.xaml" expanded="True" selected="True" />
-              <Node name="SavedProperties.xaml" expanded="True" />
-            </Node>
-            <Node name="Calculator1031.iOS" expanded="True">
-              <Node name="Resources" expanded="True">
-                <Node name="Images.xcassets" expanded="True">
-                  <Node name="AppIcons.appiconset" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/swatigupta/Projects/Calculator/Calculator1031/Calculator1031/Calculator.xaml.cs" line="353" column="1" />
+      <Breakpoint file="/Users/swatigupta/Projects/Calculator/Calculator1031/Calculator1031/Calculator.xaml.cs" line="395" column="1" />
+      <Breakpoint file="/Users/swatigupta/Projects/Calculator/Calculator1031/Droid/SplashScreen.cs" line="22" column="1" />
+      <Breakpoint file="/Users/swatigupta/Projects/Calculator/Calculator1031/Calculator1031/SavedProperties.xaml.cs" line="118" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

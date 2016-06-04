@@ -16,6 +16,7 @@ namespace Calculator1031
 			#endif
 			#if __ANDROID__
 			gridAboutUs.RowDefinitions[0].Height = new GridLength(0);
+			gridAboutUs.RowDefinitions[1].Height = new GridLength(50);
 			#endif
 			#if WINDOWS_PHONE
 			gridAboutUs.RowDefinitions[0].Height = new GridLength(0);
