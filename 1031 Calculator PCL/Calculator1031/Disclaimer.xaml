@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="Calculator1031.Disclaimer" >
+	<ScrollView>
+		<Grid x:Name="gridDisclaimer" RowSpacing="2" ColumnSpacing="5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="5" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0" />
+				<RowDefinition Height="30" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+		
+			<Label Text="Disclaimer"
+				Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="#ff54a0e8"
+				FontAttributes="Bold" FontSize="18"
+				TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+				HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+		</Grid>
+	</ScrollView>
+</ContentPage>

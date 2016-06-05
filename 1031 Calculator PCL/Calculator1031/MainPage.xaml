@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+xmlns:mypages = "clr-namespace:Calculator1031;assembly=Calculator1031"
+x:Class="Calculator1031.MainPage" BackgroundColor="White">
+  <TabbedPage.Children>
+    <mypages:Calculator Title="Calculator" BackgroundColor="White" x:Name="tabCalculator" Icon="calculator.png" />
+    <mypages:SavedProperties Title="Saved Properties"  BackgroundColor="White" x:Name="tabSavedProperties" Icon="save.png" />
+    <mypages:AboutUs Title="About 1031" BackgroundColor="White" x:Name="tabAboutUs" Icon="about.png" />
+    <mypages:Disclaimer Title="Disclaimer" BackgroundColor="White" x:Name="tabDisclaimer" Icon="disclaimer.png" />
+  </TabbedPage.Children>
+</TabbedPage>
