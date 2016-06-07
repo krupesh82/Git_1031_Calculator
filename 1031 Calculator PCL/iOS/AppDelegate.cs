@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Plugin.Toasts;
 using Foundation;
 using UIKit;
 using RoundedBoxView.Forms.Plugin.iOSUnified;
+using Xamarin.Forms;
 
 namespace Calculator1031.iOS
 {
@@ -15,6 +17,10 @@ namespace Calculator1031.iOS
 		{
 			global::Xamarin.Forms.Forms.Init ();
 			RoundedBoxViewRenderer.Init ();
+
+			DependencyService.Register<ToastNotificatorImplementation>();
+			ToastNotificatorImplementation.Init();
+
 			LoadApplication (new App ());
 
 			return base.FinishedLaunching (app, options);
