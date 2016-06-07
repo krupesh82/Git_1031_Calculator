@@ -10,6 +10,7 @@ using Android.OS;
 
 using Xamarin.Forms;
 using RoundedBoxView.Forms.Plugin.Droid;
+using Plugin.Toasts;
 
 namespace Calculator1031.Droid
 {
@@ -25,6 +26,10 @@ namespace Calculator1031.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 			RoundedBoxViewRenderer.Init ();
+
+			DependencyService.Register<ToastNotificatorImplementation>();
+			ToastNotificatorImplementation.Init(this);
+
 			LoadApplication (new App ());
 		}
 
