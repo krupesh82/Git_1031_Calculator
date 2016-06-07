@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Plugin.Toasts;
 
 namespace Calculator1031
 {
@@ -342,13 +343,20 @@ namespace Calculator1031
 		{
 			if (percentageComplete != 100.0) 
 			{
-				await DisplayAlert ("Alert", "Please fill in all the fields before saving the calculation!", "OK");
+				ShowToast (ToastNotificationType.Info, "Please fill in all the fields before saving the calculation.", 2);
+				//await DisplayAlert ("Alert", "Please fill in all the fields before saving the calculation!", "OK");
 			} 
 			else 
 			{
 				var saveDialog = new SaveDialog (GetProperty ());
 				await Navigation.PushModalAsync (saveDialog);
 			}
+		}
+
+		private async void ShowToast(ToastNotificationType type, string message, int toastTime)
+		{
+			var notificator = DependencyService.Get<IToastNotificator>();
+			bool tapped = await notificator.Notify(type, message, "", TimeSpan.FromSeconds(toastTime));
 		}
 	}
 }
