@@ -25,7 +25,7 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="1.5*" />
-				<RowDefinition Height="15" />
+				<RowDefinition Height="5" />
 			</Grid.RowDefinitions>
 		
 			<Label Text="1031 Exchange Calculator"
