@@ -23,8 +23,6 @@ namespace Calculator1031.iOS
 
 			LoadApplication (new App ());
 
-
-
 			return base.FinishedLaunching (app, options);
 		}
 	}
