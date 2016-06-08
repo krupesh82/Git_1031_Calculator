@@ -118,7 +118,7 @@
 			<Label Text="Select State" TextColor="Black"
 				Grid.Row="6" Grid.Column="1"
 				HorizontalOptions="Start" VerticalOptions="Center" />
-			<Picker x:Name="pickerState" Grid.Row="6" Grid.Column="2" Title="Select State"
+			<Picker x:Name="pickerState" Grid.Row="6" Grid.Column="2" Title="State"
 				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" 
 				SelectedIndexChanged="pickerState_SelectedIndexChanged" BackgroundColor="White"
 				 />
@@ -126,15 +126,15 @@
 			<Label Text="Marital Status" TextColor="Black"
 				Grid.Row="7" Grid.Column="1"
 				HorizontalOptions="Start" VerticalOptions="Center" />
-			<Picker x:Name="pickerMS" Grid.Row="7" Grid.Column="2" Title="Select Marital Status"
-				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"
+			<Picker x:Name="pickerMS" Grid.Row="7" Grid.Column="2" Title="Marital Status"
+				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" 
 				SelectedIndexChanged="pickerMS_SelectedIndexChanged" BackgroundColor="White"
 				 />
 
 			<Label Text="Income" TextColor="Black"
 				Grid.Row="8" Grid.Column="1"
 				HorizontalOptions="Start" VerticalOptions="Center" />
-			<Picker x:Name="pickerIncome" Grid.Row="8" Grid.Column="2" Title="Select Income Group"
+			<Picker x:Name="pickerIncome" Grid.Row="8" Grid.Column="2" Title="Income Group"
 				VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"
 				SelectedIndexChanged="pickerIncome_SelectedIndexChanged" BackgroundColor="White"
 				 />
