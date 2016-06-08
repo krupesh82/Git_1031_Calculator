@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
 <resources>
-
-	<color name="actionBarBackgroundColor">#ffffff</color>
-
-   	<style name="MyActionBar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/actionBarBackgroundColor</item>
+   <style name="MyActionBarTab" parent="android:Widget.Holo.ActionBar.TabView"">
+        <item name="android:background">@android:color/white</item>
     </style>
 
-  	<style name="MyTheme.Main" parent ="android:Theme.Holo.Light">
-  		<item name="android:textColorPrimary">#ff000000</item>
-  		<item name="android:actionBarStyle">@style/MyActionBar</item>
+  <style name="MyActionBarTabText" parent="android:Widget.Holo.ActionBar.TabText"">
+        <item name="android:textColor">@android:color/white</item>
+  </style>
 
-  	</style>
+  <style name="MyTheme.Main" parent ="android:Theme.Holo.Light">
+  	<item name="android:textColorPrimary">#ff000000</item>
+  	<item name="android:actionBarTabStyle">@style/MyActionBarTab</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+  </style>
 
   <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light">
     <item name="android:windowBackground">@drawable/SplashScreen</item>
