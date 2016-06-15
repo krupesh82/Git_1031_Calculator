@@ -15,6 +15,8 @@ namespace Calculator1031
 		double percentageComplete = 0;
 		double savings = 0.0;
 		double percentageTax = 0.0;
+		double width;
+		double height;
 
 		public Calculator ()
 		{
@@ -71,6 +73,33 @@ namespace Calculator1031
 			s.Spans.Add (new Span { Text = Environment.NewLine });
 			s.Spans.Add (new Span{ Text = "Complete", FontSize= 16 });
 			lblPercComplete.FormattedText = s;
+		}
+
+		protected override void OnSizeAllocated (double width, double height)
+		{
+			base.OnSizeAllocated (width, height);
+			if (width != this.width || height != this.height) {
+				this.width = width;
+				this.height = height;
+
+				if (width > height) 
+				{
+					gridCalc.ColumnDefinitions[2].Width = new GridLength(200);
+				}
+				else 
+				{
+					gridCalc.ColumnDefinitions[2].Width = new GridLength(160);
+				}
+			}
+		}
+		private void ClearFields()
+		{
+			this.entryPP.Text = "";
+			this.entryCI.Text = "";
+			this.entrySP.Text = "";
+			PopulateStates ();
+			PopulateMaritalStatus ();
+			PopulateIncome ();
 		}
 
 		private void PopulateStates()
@@ -298,7 +327,9 @@ namespace Calculator1031
 		{
 			CalculateSavings ();
 			var s = new FormattedString ();
-			s.Spans.Add (new Span{ Text = "Your 1031 savings:", FontSize= 16 });
+			s.Spans.Add (new Span{ Text = "Your 1031 savings", FontSize= 14 });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "are:", FontSize= 14 });
 			s.Spans.Add (new Span { Text = Environment.NewLine });
 			s.Spans.Add (new Span{ Text = "$" + savings.ToString (), FontSize= 24, FontAttributes = FontAttributes.Bold });
 			lblPercComplete.FormattedText = s;
@@ -350,6 +381,7 @@ namespace Calculator1031
 			{
 				var saveDialog = new SaveDialog (GetProperty ());
 				await Navigation.PushModalAsync (saveDialog);
+				ClearFields ();
 			}
 		}
 
