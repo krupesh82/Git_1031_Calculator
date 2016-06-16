@@ -94,9 +94,9 @@ namespace Calculator1031
 		}
 		private void ClearFields()
 		{
-			this.entryPP.Text = "";
-			this.entryCI.Text = "";
-			this.entrySP.Text = "";
+			this.entryPP.Text = "0";
+			this.entryCI.Text = "0";
+			this.entrySP.Text = "0";
 			PopulateStates ();
 			PopulateMaritalStatus ();
 			PopulateIncome ();
@@ -104,28 +104,29 @@ namespace Calculator1031
 
 		private void PopulateStates()
 		{
-			if (_states != null && _states.Count > 0)
-				return;
-
 			pickerState.Items.Clear ();
-			DataString[] dataStates = LoadFromJSON.GetData ("Calculator1031.Resources.States.json");
-
-			if (dataStates != null && dataStates.Length > 0) 
+			if (_states != null && _states.Count > 0) 
 			{
-				_states = new List<DataString> ();
-				foreach (DataString data in dataStates) 
-				{
+				foreach (DataString data in _states) {
 					pickerState.Items.Add (data.Text);
-					_states.Add (data);
+				}
+			} 
+			else 
+			{				
+				DataString[] dataStates = LoadFromJSON.GetData ("Calculator1031.Resources.States.json");
+
+				if (dataStates != null && dataStates.Length > 0) {
+					_states = new List<DataString> ();
+					foreach (DataString data in dataStates) {
+						pickerState.Items.Add (data.Text);
+						_states.Add (data);
+					}
 				}
 			}
 		}
 
 		private void PopulateMaritalStatus()
 		{
-			if (pickerMS.Items.Count > 0)
-				return;
-
 			pickerMS.Items.Clear ();
 			pickerMS.Items.Add ("Single");
 			pickerMS.Items.Add ("Married");
@@ -134,6 +135,7 @@ namespace Calculator1031
 		private void PopulateIncome()
 		{
 			DataString[] dataIncome = null;
+			pickerIncome.Items.Clear ();
 			if (pickerMS.SelectedIndex == 0 && (_singleIncome == null || _singleIncome.Count <= 0)) 
 			{
 				dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.SingleIncomeGroup.json");
@@ -145,8 +147,6 @@ namespace Calculator1031
 
 			if (dataIncome != null && dataIncome.Length > 0) 
 			{
-				pickerIncome.Items.Clear ();
-
 				if (pickerMS.SelectedIndex == 0) 
 				{
 					_singleIncome = new List<DataString> ();
@@ -380,8 +380,11 @@ namespace Calculator1031
 			else 
 			{
 				var saveDialog = new SaveDialog (GetProperty ());
+				saveDialog.Disappearing += (object sender1, EventArgs ea) => {
+					if(!saveDialog.IsCancelled)
+						ClearFields ();
+				};
 				await Navigation.PushModalAsync (saveDialog);
-				ClearFields ();
 			}
 		}
 

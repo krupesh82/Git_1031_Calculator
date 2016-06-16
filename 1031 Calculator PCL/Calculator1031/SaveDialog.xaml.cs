@@ -9,6 +9,7 @@ namespace Calculator1031
 	public partial class SaveDialog : ContentPage
 	{
 		private Property property = null;
+		public bool IsCancelled = false;
 
 		public SaveDialog (Property prop)
 		{
@@ -40,6 +41,7 @@ namespace Calculator1031
 						property.Name = name;
 						dbHelper.InsertProperty (property);
 						ShowToast (ToastNotificationType.Info, "Property '" + name + "' saved successfully.", 2);
+						this.IsCancelled = false;
 						await Navigation.PopModalAsync();
 					}
 					catch(Exception ex) {
@@ -52,6 +54,7 @@ namespace Calculator1031
 
 		async void btnDismiss_Clicked(object sender, EventArgs e)
 		{
+			this.IsCancelled = true;
 			await Navigation.PopModalAsync();
 		}
 
