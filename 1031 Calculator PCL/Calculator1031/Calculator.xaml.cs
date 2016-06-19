@@ -31,6 +31,8 @@ namespace Calculator1031
 				gridCalc.RowDefinitions[0].Height = new GridLength(20);
 				gridPercComplete.RowDefinitions[1].Height = new GridLength(130);
 				gridPercComplete.ColumnDefinitions[1].Width = new GridLength(130);
+				btnSave.HeightRequest = 30;
+				btnCalculate.HeightRequest = 30;
 				//	UIKit.UIImage img = new UIKit.UIImage("delete_trash.png");
 				//this.Icon = ImageSource.FromFile("Calculator.svg");
 			}

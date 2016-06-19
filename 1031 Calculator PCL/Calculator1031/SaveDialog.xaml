@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Calculator1031.SaveDialog" BackgroundColor="White">
-<Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+<Grid x:Name="gridSaveDialog" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
 <Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="20" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
@@ -12,10 +13,10 @@
 	<Label x:Name="toastSDLabel" IsVisible="false" TextColor="White" BackgroundColor="Black"
 			HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
 			FontSize="16" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"
-			Opacity="0.7" Grid.Column="0" Grid.Row="0" />
+			Opacity="0.7" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" />
 	<StackLayout Spacing="3" HorizontalOptions="Center" VerticalOptions="Center" 
 		Padding="10,0,10,0" BackgroundColor="White"
-		Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" >
+		Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" >
 		
 		<Label Text="Please enter the property name:" TextColor="Black" FontSize="18" />
 		<Entry x:Name="entryName" TextColor="Black" />
