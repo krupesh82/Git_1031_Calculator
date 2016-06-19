@@ -10,26 +10,26 @@ using Android.OS;
 
 using Xamarin.Forms;
 using RoundedBoxView.Forms.Plugin.Droid;
-using Plugin.Toasts;
+using Xamarin.Forms.Platform.Android;
 
 namespace Calculator1031.Droid
 {
-	[Activity (Label = "Calculator1031.Droid", Icon = "@drawable/icon", Theme="@style/MyTheme.Main", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+	[Activity (Label = "Calculator1031.Droid", Icon = "@drawable/icon", Theme="@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 	{
 		static int doubleBackTimeInterval = 2000;
 		long onBackPressed;
 
 		protected override void OnCreate (Bundle bundle)
 		{
+			FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+			FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
+
 			base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
+
 			RoundedBoxViewRenderer.Init ();
-
-			DependencyService.Register<ToastNotificatorImplementation>();
-			ToastNotificatorImplementation.Init(this);
-
 			LoadApplication (new App ());
 		}
 
@@ -46,4 +46,3 @@ namespace Calculator1031.Droid
 		}
 	}
 }
-

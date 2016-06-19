@@ -13,9 +13,16 @@ namespace Calculator1031
 			InitializeComponent ();
 
 			tabSavedProperties.Appearing +=	(object sender, EventArgs e) => {
-				tabSavedProperties.PopulateProperties();
+				tabSavedProperties.PopulateProperties ();
 			};
 
+			if (Device.OS == TargetPlatform.Android) 
+			{
+				tabCalculator.Title = "";
+				tabSavedProperties.Title = "";
+				tabAboutUs.Title = "";
+				tabDisclaimer.Title = "";
+			}
 		}
 	}
 }

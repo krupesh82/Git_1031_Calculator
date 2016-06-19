@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
-using Plugin.Toasts;
 
 namespace Calculator1031
 {
@@ -15,6 +14,8 @@ namespace Calculator1031
 		double percentageComplete = 0;
 		double savings = 0.0;
 		double percentageTax = 0.0;
+		double width;
+		double height;
 
 		public Calculator ()
 		{
@@ -73,30 +74,58 @@ namespace Calculator1031
 			lblPercComplete.FormattedText = s;
 		}
 
+		protected override void OnSizeAllocated (double width, double height)
+		{
+			base.OnSizeAllocated (width, height);
+			if (width != this.width || height != this.height) {
+				this.width = width;
+				this.height = height;
+
+				if (width > height) 
+				{
+					gridCalc.ColumnDefinitions[2].Width = new GridLength(200);
+				}
+				else 
+				{
+					gridCalc.ColumnDefinitions[2].Width = new GridLength(160);
+				}
+			}
+		}
+		private void ClearFields()
+		{
+			this.entryPP.Text = "0";
+			this.entryCI.Text = "0";
+			this.entrySP.Text = "0";
+			PopulateStates ();
+			PopulateMaritalStatus ();
+			PopulateIncome ();
+		}
+
 		private void PopulateStates()
 		{
-			if (_states != null && _states.Count > 0)
-				return;
-
 			pickerState.Items.Clear ();
-			DataString[] dataStates = LoadFromJSON.GetData ("Calculator1031.Resources.States.json");
-
-			if (dataStates != null && dataStates.Length > 0) 
+			if (_states != null && _states.Count > 0) 
 			{
-				_states = new List<DataString> ();
-				foreach (DataString data in dataStates) 
-				{
+				foreach (DataString data in _states) {
 					pickerState.Items.Add (data.Text);
-					_states.Add (data);
+				}
+			} 
+			else 
+			{				
+				DataString[] dataStates = LoadFromJSON.GetData ("Calculator1031.Resources.States.json");
+
+				if (dataStates != null && dataStates.Length > 0) {
+					_states = new List<DataString> ();
+					foreach (DataString data in dataStates) {
+						pickerState.Items.Add (data.Text);
+						_states.Add (data);
+					}
 				}
 			}
 		}
 
 		private void PopulateMaritalStatus()
 		{
-			if (pickerMS.Items.Count > 0)
-				return;
-
 			pickerMS.Items.Clear ();
 			pickerMS.Items.Add ("Single");
 			pickerMS.Items.Add ("Married");
@@ -105,19 +134,24 @@ namespace Calculator1031
 		private void PopulateIncome()
 		{
 			DataString[] dataIncome = null;
-			if (pickerMS.SelectedIndex == 0 && (_singleIncome == null || _singleIncome.Count <= 0)) 
+			pickerIncome.Items.Clear ();
+			if (pickerMS.SelectedIndex == 0) 
 			{
-				dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.SingleIncomeGroup.json");
+				if (_singleIncome == null || _singleIncome.Count <= 0)
+					dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.SingleIncomeGroup.json");
+				else
+					dataIncome = _singleIncome.ToArray();
 			} 
-			else if (pickerMS.SelectedIndex == 1 && (_maritalIncome == null || _maritalIncome.Count <= 0)) 
+			else if (pickerMS.SelectedIndex == 1) 
 			{
-				dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.MarriedIncomeGroup.json");
+				if (_maritalIncome == null || _maritalIncome.Count <= 0)
+					dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.MarriedIncomeGroup.json");
+				else
+					dataIncome = _maritalIncome.ToArray();
 			}
 
 			if (dataIncome != null && dataIncome.Length > 0) 
 			{
-				pickerIncome.Items.Clear ();
-
 				if (pickerMS.SelectedIndex == 0) 
 				{
 					_singleIncome = new List<DataString> ();
@@ -286,6 +320,7 @@ namespace Calculator1031
 				{
 					double gain = sp - (pp + ci);
 					savings = gain * percentageTax / 100;
+					savings = Convert.ToDouble(savings.ToString("#.##"));
 				}
 			}
 			else
@@ -298,7 +333,9 @@ namespace Calculator1031
 		{
 			CalculateSavings ();
 			var s = new FormattedString ();
-			s.Spans.Add (new Span{ Text = "Your 1031 savings:", FontSize= 16 });
+			s.Spans.Add (new Span{ Text = "Your 1031 savings", FontSize= 14 });
+			s.Spans.Add (new Span { Text = Environment.NewLine });
+			s.Spans.Add (new Span{ Text = "are:", FontSize= 14 });
 			s.Spans.Add (new Span { Text = Environment.NewLine });
 			s.Spans.Add (new Span{ Text = "$" + savings.ToString (), FontSize= 24, FontAttributes = FontAttributes.Bold });
 			lblPercComplete.FormattedText = s;
@@ -343,20 +380,34 @@ namespace Calculator1031
 		{
 			if (percentageComplete != 100.0) 
 			{
-				ShowToast (ToastNotificationType.Info, "Please fill in all the fields before saving the calculation.", 2);
+				ShowToast ("Please fill in all the fields before saving the calculation.", 2000);
 				//await DisplayAlert ("Alert", "Please fill in all the fields before saving the calculation!", "OK");
 			} 
 			else 
 			{
 				var saveDialog = new SaveDialog (GetProperty ());
+				saveDialog.Disappearing += (object sender1, EventArgs ea) => {
+					if(!saveDialog.IsCancelled)
+					{
+						ShowToast("Property '" + saveDialog.Property.Name + "' saved successfully.", 2000);
+						ClearFields ();
+					}
+				};
 				await Navigation.PushModalAsync (saveDialog);
 			}
 		}
 
-		private async void ShowToast(ToastNotificationType type, string message, int toastTime)
+		private void ShowToast(string message, int toastTime)
 		{
-			var notificator = DependencyService.Get<IToastNotificator>();
-			bool tapped = await notificator.Notify(type, message, "", TimeSpan.FromSeconds(toastTime));
+			toastCalcLabel.Text = message;
+			toastCalcLabel.IsVisible = true;
+			Device.StartTimer(TimeSpan.FromMilliseconds(toastTime), () => {
+				toastCalcLabel.Text = "";
+				toastCalcLabel.IsVisible = false;
+				return false;
+			});
+			//var notificator = DependencyService.Get<IToastNotificator>();
+			//bool tapped = await notificator.Notify(type, message, "", TimeSpan.FromSeconds(toastTime));
 		}
 	}
 }

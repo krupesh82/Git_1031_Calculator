@@ -14,7 +14,7 @@
                     <view key="view" contentMode="scaleToFill" id="6">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.32941176470588235" green="0.62745098039215685" blue="0.90980392156862744" alpha="1"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9" translatesAutoresizingMaskIntoConstraints="NO" image="HolmAndOHaraLLP.jpg" highlightedImage="HolmAndOHaraLLP.jpg">
                                 <rect key="frame" x="184" y="184" width="232" height="232"/>
@@ -38,5 +38,6 @@
         <image name="calculator.png" width="26" height="30"/>
         <image name="about.png" width="37" height="30"/>
         <image name="save.png" width="31" height="30"/>
+        <image name="icon.png" width="256" height="256"/>
     </resources>
 </document>

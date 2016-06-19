@@ -1,1 +1,20 @@
-﻿<Properties StartupItem="iOS/Calculator1031.iOS.csproj" />
+﻿<Properties StartupItem="iOS/Calculator1031.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.05419d030a2264e2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Calculator1031/MainPage.xaml.cs">
+    <Files>
+      <File FileName="Droid/MainActivity.cs" Line="9" Column="18" />
+      <File FileName="iOS/AppDelegate.cs" Line="4" Column="1" />
+      <File FileName="Droid/CustomTabRenderer.cs" Line="21" Column="1" />
+      <File FileName="Calculator1031/MainPage.xaml" Line="1" Column="1" />
+      <File FileName="Droid/Resources/values/style.xml" Line="7" Column="11" />
+      <File FileName="iOS/Main.cs" Line="17" Column="1" />
+      <File FileName="Calculator1031/MainPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="Calculator1031/Calculator.xaml.cs" Line="337" Column="27" />
+      <File FileName="Calculator1031/Calculator.xaml" Line="130" Column="64" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

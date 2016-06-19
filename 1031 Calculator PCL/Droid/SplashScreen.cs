@@ -28,7 +28,7 @@ namespace Calculator1031.Droid
 			base.OnResume();
 
 			Task startupWork = new Task(() => {
-				Task.Delay(2000);  // Simulate a bit of startup work.
+				Task.Delay(1000);  // Simulate a bit of startup work.
 			});
 
 			startupWork.ContinueWith(t => {

@@ -5,9 +5,8 @@
 	x:Class="Calculator1031.Calculator" 
 	 >
 	  
-    <ContentPage.Content>
 	<ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="Fill"  >
-		<Grid x:Name="gridCalc" RowSpacing="2" ColumnSpacing="5" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" >
+		<Grid x:Name="gridCalc" RowSpacing="0" ColumnSpacing="5" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" >
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="2" />
 				<ColumnDefinition Width="*" />
@@ -25,14 +24,19 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="1.5*" />
-				<RowDefinition Height="5" />
+				<RowDefinition Height="15" />
 			</Grid.RowDefinitions>
-		
+
 			<Label Text="1031 Exchange Calculator"
 				Grid.Row="1" Grid.ColumnSpan="4" BackgroundColor="#ff54a0e8"
 				FontAttributes="Bold" FontSize="18"
 				TextColor="White"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
 				HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+			<Label x:Name="toastCalcLabel" IsVisible="false" TextColor="White" BackgroundColor="Black"
+				HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+				FontSize="16" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"
+				Opacity="0.8" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" />
 
 			<Grid x:Name="gridPercComplete" Grid.Row="2" Grid.Column="1" >
 				<Grid.ColumnDefinitions>
@@ -85,7 +89,7 @@
 				<Button x:Name="btnSave" Text="Save" WidthRequest="160"
 					BackgroundColor="#ff54a0e8" TextColor="White"
 					HorizontalOptions="Center" VerticalOptions="End" 
-					HeightRequest="30" Clicked="btnSave_Clicked" />
+					HeightRequest="40" Clicked="btnSave_Clicked" />
 
 			</StackLayout>
 
@@ -151,9 +155,8 @@
 			</StackLayout>
 			<Button x:Name="btnCalculate" Grid.Row="9" Grid.Column="2" WidthRequest="160"
 				Text="Calculate" BackgroundColor="#ff54a0e8" TextColor="White"
-				HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="30" 
+				HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" 
 				Clicked = "btnCalculate_Clicked" />
 		</Grid>
 	</ScrollView>
-	</ContentPage.Content>
 </ContentPage>

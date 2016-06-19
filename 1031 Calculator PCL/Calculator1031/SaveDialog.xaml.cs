@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Plugin.Toasts;
 
 namespace Calculator1031
 {
 	public partial class SaveDialog : ContentPage
 	{
-		private Property property = null;
+		public Property Property = null;
+		public bool IsCancelled = false;
 
 		public SaveDialog (Property prop)
 		{
 			InitializeComponent ();
-			property = prop;
+			Property = prop;
 		}
 
 		async void btnSaveName_Clicked(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty (entryName.Text)) 
-			{
-				ShowToast (ToastNotificationType.Info, "Please enter the property name.", 2);
-				//await DisplayAlert ("Alert", "Please enter the property name!", "OK");
-
+			{	
+				ShowToast ("Please enter the property name.", 2000);
 			} 
 			else 
 			{
@@ -31,19 +30,17 @@ namespace Calculator1031
 
 				if (dbHelper.DoesNameExist (name)) 
 				{
-					ShowToast (ToastNotificationType.Info, "The property name already exists. Please choose different name.", 2);
-					//await DisplayAlert ("Alert", "The property name already exists. Please choose different name.", "OK");
+					ShowToast ("The property name already exists. Please choose different name.", 2000);
 				}  
 				else 
 				{
 					try{
-						property.Name = name;
-						dbHelper.InsertProperty (property);
-						ShowToast (ToastNotificationType.Info, "Property '" + name + "' saved successfully.", 2);
+						Property.Name = name;
+						dbHelper.InsertProperty (Property);
 						await Navigation.PopModalAsync();
 					}
 					catch(Exception ex) {
-						ShowToast (ToastNotificationType.Info, "Oops! Some error occured. Please try again.", 2);
+						ShowToast ("Oops! Some error occured. Please try again.", 2000);
 					}
 				}
 			}
@@ -52,13 +49,19 @@ namespace Calculator1031
 
 		async void btnDismiss_Clicked(object sender, EventArgs e)
 		{
+			this.IsCancelled = true;
 			await Navigation.PopModalAsync();
 		}
 
-		private async void ShowToast(ToastNotificationType type, string message, int toastTime)
+		private void ShowToast(string message, int toastTime)
 		{
-			var notificator = DependencyService.Get<IToastNotificator>();
-			bool tapped = await notificator.Notify(type, message, "", TimeSpan.FromSeconds(toastTime));
+			toastSDLabel.Text = message;
+			toastSDLabel.IsVisible = true;
+			Device.StartTimer(TimeSpan.FromMilliseconds(toastTime), () => {
+				toastSDLabel.Text = "";
+				toastSDLabel.IsVisible = false;
+				return false;
+			});
 		}
 	}
 }
