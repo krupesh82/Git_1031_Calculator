@@ -135,6 +135,7 @@ namespace Calculator1031
 		{
 			DataString[] dataIncome = null;
 			pickerIncome.Items.Clear ();
+
 			if (pickerMS.SelectedIndex == 0) 
 			{
 				if (_singleIncome == null || _singleIncome.Count <= 0)

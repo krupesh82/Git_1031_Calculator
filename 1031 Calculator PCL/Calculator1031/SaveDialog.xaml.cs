@@ -37,6 +37,7 @@ namespace Calculator1031
 					try{
 						Property.Name = name;
 						dbHelper.InsertProperty (Property);
+						this.IsCancelled = false;
 						await Navigation.PopModalAsync();
 					}
 					catch(Exception ex) {
