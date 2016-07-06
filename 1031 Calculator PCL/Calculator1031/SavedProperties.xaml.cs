@@ -9,6 +9,7 @@ namespace Calculator1031
 {
 	public partial class SavedProperties : ContentPage
 	{
+		private int _latestPropertyId = -1;
 
 		public SavedProperties ()
 		{
@@ -31,18 +32,20 @@ namespace Calculator1031
 		public void PopulateProperties()
 		{
 			Device.BeginInvokeOnMainThread (() => {
-				layoutPropertyStack.Children.Clear ();
-				layoutPropertyStack.Spacing = 2;
-
-				List<Property> properties = new DBHelper ().GetAllProperties ();
+				
+				List<Property> properties = new DBHelper ().GetAllNewProperties (_latestPropertyId);
 
 				if(properties == null || properties.Count <= 0)
 				{
-					lblNoProperties.IsVisible = true;
-					layoutPropertyStack.IsVisible = false;
+					if(layoutPropertyStack.Children.Count == 0){
+						lblNoProperties.IsVisible = true;
+						layoutPropertyStack.IsVisible = false;
+					}
 				}
 				else
 				{
+					_latestPropertyId = properties[properties.Count - 1].ID;
+
 					lblNoProperties.IsVisible = false;
 					layoutPropertyStack.IsVisible = true;
 
@@ -96,8 +99,6 @@ namespace Calculator1031
 
 						hLayout.Children.Add (btnDelete);
 
-						layoutPropertyStack.Children.Add (hLayout);
-
 						PropertyDetails details = new PropertyDetails ();
 						details.SetPropertyDetails (property);
 
@@ -106,14 +107,14 @@ namespace Calculator1031
 						view.HorizontalOptions = LayoutOptions.Fill;
 						view.IsVisible = false;
 
-						layoutPropertyStack.Children.Add (view);
-
 						BoxView titleLine = new BoxView();
 						titleLine.HeightRequest = 1;
 						titleLine.HorizontalOptions = LayoutOptions.Fill;
 						titleLine.BackgroundColor=Color.Gray;
 
-						layoutPropertyStack.Children.Add(titleLine);
+						layoutPropertyStack.Children.Insert(0,titleLine);
+						layoutPropertyStack.Children.Insert(0,view);
+						layoutPropertyStack.Children.Insert(0,hLayout);
 
 						var tapGestureOnName = new TapGestureRecognizer ();
 						tapGestureOnName.Tapped += (object sender, EventArgs e) => {

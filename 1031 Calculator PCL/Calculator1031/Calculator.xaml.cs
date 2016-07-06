@@ -8,9 +8,6 @@ namespace Calculator1031
 	public partial class Calculator : ContentPage
 	{
 		string resourcePrefix = "";
-		List<DataString> _states = null;
-		List<DataString> _singleIncome = null;
-		List<DataString> _maritalIncome = null;
 		double percentageComplete = 0;
 		double savings = 0.0;
 		double percentageTax = 0.0;
@@ -31,6 +28,8 @@ namespace Calculator1031
 				gridCalc.RowDefinitions[0].Height = new GridLength(20);
 				gridPercComplete.RowDefinitions[1].Height = new GridLength(130);
 				gridPercComplete.ColumnDefinitions[1].Width = new GridLength(130);
+				btnSave.HeightRequest = 30;
+				btnCalculate.HeightRequest = 30;
 				//	UIKit.UIImage img = new UIKit.UIImage("delete_trash.png");
 				//this.Icon = ImageSource.FromFile("Calculator.svg");
 			}
@@ -96,32 +95,20 @@ namespace Calculator1031
 			this.entryPP.Text = "0";
 			this.entryCI.Text = "0";
 			this.entrySP.Text = "0";
-			PopulateStates ();
-			PopulateMaritalStatus ();
-			PopulateIncome ();
+			pickerState.SelectedIndex = -1;
+			pickerMS.SelectedIndex = -1;
+			pickerIncome.SelectedIndex = -1;
 		}
 
 		private void PopulateStates()
 		{
 			pickerState.Items.Clear ();
-			if (_states != null && _states.Count > 0) 
-			{
-				foreach (DataString data in _states) {
-					pickerState.Items.Add (data.Text);
-				}
-			} 
-			else 
-			{				
-				DataString[] dataStates = LoadFromJSON.GetData ("Calculator1031.Resources.States.json");
-
-				if (dataStates != null && dataStates.Length > 0) {
-					_states = new List<DataString> ();
+			List<DataString> dataStates = DataStrings.GetStates();
+				if (dataStates != null && dataStates.Count > 0) {
 					foreach (DataString data in dataStates) {
 						pickerState.Items.Add (data.Text);
-						_states.Add (data);
 					}
 				}
-			}
 		}
 
 		private void PopulateMaritalStatus()
@@ -133,42 +120,32 @@ namespace Calculator1031
 
 		private void PopulateIncome()
 		{
-			DataString[] dataIncome = null;
+			List<DataString> dataIncome = null;
 			pickerIncome.Items.Clear ();
 
 			if (pickerMS.SelectedIndex == 0) 
 			{
-				if (_singleIncome == null || _singleIncome.Count <= 0)
-					dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.SingleIncomeGroup.json");
-				else
-					dataIncome = _singleIncome.ToArray();
+				dataIncome = DataStrings.GetDataIncomeGroup ("Single");
 			} 
 			else if (pickerMS.SelectedIndex == 1) 
 			{
-				if (_maritalIncome == null || _maritalIncome.Count <= 0)
-					dataIncome = LoadFromJSON.GetData ("Calculator1031.Resources.MarriedIncomeGroup.json");
-				else
-					dataIncome = _maritalIncome.ToArray();
+				dataIncome = DataStrings.GetDataIncomeGroup("Married");
 			}
 
-			if (dataIncome != null && dataIncome.Length > 0) 
+			if (dataIncome != null && dataIncome.Count > 0) 
 			{
 				if (pickerMS.SelectedIndex == 0) 
 				{
-					_singleIncome = new List<DataString> ();
 					foreach (DataString data in dataIncome) 
 					{
 						pickerIncome.Items.Add (data.Text);
-						_singleIncome.Add (data);
 					}
 				}
 				else if (pickerMS.SelectedIndex == 1) 
 				{
-					_maritalIncome = new List<DataString> ();
 					foreach (DataString data in dataIncome) 
 					{
 						pickerIncome.Items.Add (data.Text);
-						_maritalIncome.Add (data);
 					}
 				}
 			}
@@ -255,16 +232,16 @@ namespace Calculator1031
 
 			if (pickerState.SelectedIndex >= 0)
 			{
-				stateTax = _states [pickerState.SelectedIndex].Value;
+				stateTax = DataStrings.GetStates()[pickerState.SelectedIndex].Value;
 			}
 
 			if (pickerMS.SelectedIndex == 0 && pickerIncome.SelectedIndex >= 0) 
 			{
-				federalTax = _singleIncome [pickerIncome.SelectedIndex].Value;
+				federalTax = DataStrings.GetDataIncomeGroup("Single")[pickerIncome.SelectedIndex].Value;
 			} 
 			else if (pickerMS.SelectedIndex == 1 && pickerIncome.SelectedIndex >= 0) 
 			{
-				federalTax = _maritalIncome [pickerIncome.SelectedIndex].Value;
+				federalTax = DataStrings.GetDataIncomeGroup("Married")[pickerIncome.SelectedIndex].Value;
 			}
 
 			return Convert.ToDouble(stateTax) + Convert.ToDouble(federalTax);
@@ -355,18 +332,18 @@ namespace Calculator1031
 			if (!string.IsNullOrEmpty (entrySP.Text))
 				prop.SalePrice = Convert.ToDouble (entrySP.Text);
 
-			if (pickerState.SelectedIndex >= 0 && (_states != null && _states.Count > 0))
-				prop.State = _states [pickerState.SelectedIndex].Text;
+			if (pickerState.SelectedIndex >= 0)
+				prop.State = DataStrings.GetStates() [pickerState.SelectedIndex].Text;
 
 			if (pickerMS.SelectedIndex >= 0)
 				prop.MaritalStatus = pickerMS.SelectedIndex == 0 ? "Single" : "Married";
 
 			if (pickerIncome.SelectedIndex >= 0) 
 			{
-				if (pickerMS.SelectedIndex == 0 && (_singleIncome != null && _singleIncome.Count > 0))
-					prop.Income = _singleIncome [pickerIncome.SelectedIndex].Text;
-				else if (pickerMS.SelectedIndex == 1 && (_maritalIncome != null && _maritalIncome.Count > 0))
-					prop.Income = _maritalIncome [pickerIncome.SelectedIndex].Text;
+				if (pickerMS.SelectedIndex == 0)
+					prop.Income = DataStrings.GetDataIncomeGroup("Single") [pickerIncome.SelectedIndex].Text;
+				else if (pickerMS.SelectedIndex == 1)
+					prop.Income = DataStrings.GetDataIncomeGroup("Married") [pickerIncome.SelectedIndex].Text;
 			}
 
 			prop.TaxRate = percentageTax;

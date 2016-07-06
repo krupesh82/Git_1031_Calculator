@@ -23,4 +23,3 @@ namespace Calculator1031
 		}
 	}
 }
-

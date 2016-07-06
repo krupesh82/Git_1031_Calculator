@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Calculator1031
 {
 	public static class LoadFromJSON
 	{
-
-		public static DataString[] GetData(string fileName)
+		/*
+		public static List<DataString> GetData(string fileName)
 		{
 			var assembly = typeof(LoadFromJSON).GetTypeInfo().Assembly;
 			Stream stream = assembly.GetManifestResourceStream(fileName);
 
-			DataString[] data;
+			List<DataString> data;
 
 			using (var reader = new System.IO.StreamReader(stream))
 			{
@@ -28,6 +28,7 @@ namespace Calculator1031
 			}
 
 		}
+		*/
 	}
 }
 

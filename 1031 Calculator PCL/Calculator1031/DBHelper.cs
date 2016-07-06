@@ -52,6 +52,11 @@ namespace Calculator1031
 			return this.Connection.Table<Property> ().OrderByDescending (p => p.ID).ToList ();
 		}
 
+		public List<Property> GetAllNewProperties(int propId)
+		{
+			return this.Connection.Query<Property> ("SELECT * FROM [Property] WHERE [ID] > " + propId.ToString()).OrderBy (p => p.ID).ToList ();
+		}
+
 		public bool DoesNameExist(string propertyName)
 		{
 			int count = this.Connection.Table<Property> ().Count(p => p.Name == propertyName);

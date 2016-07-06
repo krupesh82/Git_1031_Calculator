@@ -15,6 +15,14 @@ namespace Calculator1031
 		{
 			InitializeComponent ();
 			Property = prop;
+
+			if (Device.OS == TargetPlatform.iOS) {
+				gridSaveDialog.RowDefinitions [0].Height = new GridLength (20);
+			}
+
+			if (Device.OS == TargetPlatform.Android) {
+				gridSaveDialog.RowDefinitions [0].Height = new GridLength (0);
+			}
 		}
 
 		async void btnSaveName_Clicked(object sender, EventArgs e)
