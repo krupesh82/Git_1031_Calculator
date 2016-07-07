@@ -139,7 +139,10 @@ namespace Calculator1031
 							if(task){
 								DBHelper dbHelper = new DBHelper ();
 								dbHelper.DeleteProperty (property.ID);
-								PopulateProperties();
+								//PopulateProperties();
+								layoutPropertyStack.Children.Remove(titleLine);
+								layoutPropertyStack.Children.Remove(view);
+								layoutPropertyStack.Children.Remove(hLayout);
 							}
 						};
 
